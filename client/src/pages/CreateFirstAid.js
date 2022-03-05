@@ -36,34 +36,25 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: '#fefefe',
-    color: '#00695c',
+    backgroundColor: '#00695c',
+    color: '#ffffff',
     "&:hover": {
-      backgroundColor: "#00695c",
-      color: '#ffffff'
+      backgroundColor: "#ffffff",
+      color: '#00695c'
     }
   },
   editbtn: {
-    backgroundColor: '#ffffff',
-    color: '#548acc',
-    marginRight: 10,
-    "&:hover": {
-      backgroundColor: "#548acc",
-      color: '#ffffff'
-    }
+    backgroundColor: '#548acc',
+    color: '#ffffff',
+    marginRight: 10
   },
   delbtn: {
-    backgroundColor: '#ffffff',
-    color: '#d16060',
-    marginRight: 10,
-    "&:hover": {
-      backgroundColor: "#d16060",
-      color: '#ffffff'
-    }
+    backgroundColor: '#d16060',
+    color: '#ffffff'
   },
 }));
 
-export default function CreatePatients() {
+export default function CreateFirstAid() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -82,7 +73,7 @@ export default function CreatePatients() {
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/patients");
+    const result = await axios.get("http://localhost:3001/firstaid");
     setData(result.data.reverse());
   };
 
@@ -92,7 +83,7 @@ export default function CreatePatients() {
 
  
   const addData = async () => {
-    const result = await axios.post("http://localhost:3001/patients", {
+    const result = await axios.post("http://localhost:3001/firstaid", {
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
@@ -103,7 +94,7 @@ export default function CreatePatients() {
   };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/patients/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/firstaid/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -115,7 +106,7 @@ export default function CreatePatients() {
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/patients/${id}`);
+    const result = await axios.delete(`http://localhost:3001/firstaid/${id}`);
     window.location.reload();
   };
 
@@ -163,10 +154,10 @@ export default function CreatePatients() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
+        รายชื่อผู้ป่วยที่ได้เห็น First aid in major trauma
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
+      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เห็น First aid in major trauma"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
