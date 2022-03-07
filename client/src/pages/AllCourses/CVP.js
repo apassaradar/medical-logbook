@@ -21,8 +21,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Popup from "../components/Popup";
-import Form from "../components/Form"
+import Popup from "../../components/Popup";
+import Form from "../../components/Form"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Patients() {
+export default function CVP() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -168,10 +168,10 @@ export default function Patients() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
+        รายชื่อผู้ป่วยที่ได้ทำการวัด CVP
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
+      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้ทำการวัด CVP"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />

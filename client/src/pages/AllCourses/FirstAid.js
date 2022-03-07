@@ -21,8 +21,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Popup from "../components/Popup";
-import Form from "../components/Form"
+import Popup from "../../components/Popup";
+import Form from "../../components/Form"
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
   field: {
@@ -36,21 +37,38 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: '#00695c',
-    color: '#ffffff'
+    backgroundColor: '#fefefe',
+    color: '#00695c',
+    "&:hover": {
+      backgroundColor: "#00695c",
+      color: '#ffffff'
+    }
   },
   editbtn: {
-    backgroundColor: '#548acc',
-    color: '#ffffff',
-    marginRight: 10
+    backgroundColor: '#ffffff',
+    color: '#548acc',
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#548acc",
+      color: '#ffffff'
+    }
   },
   delbtn: {
-    backgroundColor: '#d16060',
-    color: '#ffffff'
+    backgroundColor: '#ffffff',
+    color: '#d16060',
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#d16060",
+      color: '#ffffff'
+    }
   },
+  chip: {
+    backgroundColor: "#85E36B",
+    color: '#ffffff'
+  }
 }));
 
-export default function HelpMajor() {
+export default function FirstAid() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -69,7 +87,7 @@ export default function HelpMajor() {
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/helpmajor");
+    const result = await axios.get("http://localhost:3001/patients");
     setData(result.data.reverse());
   };
 
@@ -79,7 +97,7 @@ export default function HelpMajor() {
 
  
   const addData = async () => {
-    const result = await axios.post("http://localhost:3001/helpmajor", {
+    const result = await axios.post("http://localhost:3001/patients", {
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
@@ -90,7 +108,7 @@ export default function HelpMajor() {
   };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/helpmajor/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/patients/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -102,7 +120,7 @@ export default function HelpMajor() {
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/helpmajor/${id}`);
+    const result = await axios.delete(`http://localhost:3001/patients/${id}`);
     window.location.reload();
   };
 
@@ -150,10 +168,10 @@ export default function HelpMajor() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้เข้าช่วยการผ่าตัดใหญ่
+        รายชื่อผู้ป่วยที่ได้เห็น First aid in major trauma
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เข้าช่วยการผ่าตัดใหญ่"
+      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เห็น First aid in major trauma"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
@@ -268,6 +286,7 @@ export default function HelpMajor() {
               <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
+              <TableCell align="left">Status</TableCell>
               <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
@@ -301,6 +320,9 @@ export default function HelpMajor() {
                   >
                     {res.updatedAt}
                   </SimpleDateTime>
+                </TableCell>
+                <TableCell align="left">
+                  <Chip label="success" className={classes.chip} />
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}

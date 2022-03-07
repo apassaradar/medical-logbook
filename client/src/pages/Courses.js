@@ -98,7 +98,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/opd"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -127,7 +127,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/conference"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -156,7 +156,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/emergency"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -185,7 +185,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/observemajor"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -243,7 +243,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/helpobserveminor"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -301,7 +301,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/stitches"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -330,7 +330,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/foleycath"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -359,7 +359,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/cvp"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -388,7 +388,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/resident"
                   type="submit"
                   color="success"
                   variant="contained"

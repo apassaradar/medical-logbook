@@ -21,8 +21,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Popup from "../components/Popup";
-import Form from "../components/Form"
+import Popup from "../../components/Popup";
+import Form from "../../components/Form"
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
   field: {
@@ -36,25 +37,38 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: '#00695c',
-    color: '#ffffff',
+    backgroundColor: '#fefefe',
+    color: '#00695c',
     "&:hover": {
-      backgroundColor: "#ffffff",
-      color: '#00695c'
+      backgroundColor: "#00695c",
+      color: '#ffffff'
     }
   },
   editbtn: {
-    backgroundColor: '#548acc',
-    color: '#ffffff',
-    marginRight: 10
+    backgroundColor: '#ffffff',
+    color: '#548acc',
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#548acc",
+      color: '#ffffff'
+    }
   },
   delbtn: {
-    backgroundColor: '#d16060',
-    color: '#ffffff'
+    backgroundColor: '#ffffff',
+    color: '#d16060',
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#d16060",
+      color: '#ffffff'
+    }
   },
+  chip: {
+    backgroundColor: "#d16060",
+    color: '#ffffff'
+  }
 }));
 
-export default function FirstAid() {
+export default function HelpObserveMinor() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -73,7 +87,7 @@ export default function FirstAid() {
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/firstaid");
+    const result = await axios.get("http://localhost:3001/patients");
     setData(result.data.reverse());
   };
 
@@ -83,7 +97,7 @@ export default function FirstAid() {
 
  
   const addData = async () => {
-    const result = await axios.post("http://localhost:3001/firstaid", {
+    const result = await axios.post("http://localhost:3001/patients", {
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
@@ -94,7 +108,7 @@ export default function FirstAid() {
   };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/firstaid/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/patients/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -106,7 +120,7 @@ export default function FirstAid() {
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/firstaid/${id}`);
+    const result = await axios.delete(`http://localhost:3001/patients/${id}`);
     window.location.reload();
   };
 
@@ -154,10 +168,10 @@ export default function FirstAid() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้เห็น First aid in major trauma
+        รายชื่อผู้ป่วยที่ได้เข้าสังเกตหรือช่วยการผ่าตัดเล็ก
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เห็น First aid in major trauma"
+      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เข้าสังเกตหรือช่วยการผ่าตัดเล็ก"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
@@ -272,6 +286,7 @@ export default function FirstAid() {
               <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
+              <TableCell align="left">Status</TableCell>
               <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
@@ -305,6 +320,9 @@ export default function FirstAid() {
                   >
                     {res.updatedAt}
                   </SimpleDateTime>
+                </TableCell>
+                <TableCell align="left">
+                  <Chip label="success" className={classes.chip} />
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}

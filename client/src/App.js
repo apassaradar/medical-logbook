@@ -1,9 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Overview from "./pages/Overview";
 import Courses from "./pages/Courses";
-import Patients from "./pages/Patients";
-import FirstAid from "./pages/FirstAid";
-import HelpMajor from "./pages/HelpMajor";
+import Patients from "./pages/AllCourses/Patients";
+import HelpMajor from "./pages/AllCourses/HelpMajor";
+import ObserveMajor from "./pages/AllCourses/ObserveMajor";
+import HelpObserveMinor from "./pages/AllCourses/HelpObserveMinor";
+import FirstAid from "./pages/AllCourses/FirstAid";
+import Stitches from "./pages/AllCourses/Stitches";
+import FoleyCath from "./pages/AllCourses/FoleyCath";
+import CVP from "./pages/AllCourses/CVP";
 import Form from "./components/Form";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Layout from "./components/Layout";
@@ -46,8 +51,23 @@ function App() {
             <Route path="/helpmajor">
               <HelpMajor />
             </Route>
+            <Route path="/observemajor">
+              <ObserveMajor />
+            </Route>
+            <Route path="/helpobserveminor">
+              <HelpObserveMinor />
+            </Route>
             <Route path="/firstaid">
               <FirstAid />
+            </Route>
+            <Route path="/stitches">
+              <Stitches />
+            </Route>
+            <Route path="/foleycath">
+              <FoleyCath />
+            </Route>
+            <Route path="/cvp">
+              <CVP />
             </Route>
             <Route path="/form">
               <Form />
