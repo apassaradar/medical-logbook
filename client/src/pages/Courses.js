@@ -69,7 +69,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -98,7 +98,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -127,7 +127,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -156,7 +156,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -185,7 +185,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -214,7 +214,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/helpmajor"
+                  to="/helpmajor"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -243,7 +243,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -272,7 +272,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/firstaid"
+                  to="/firstaid"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -301,7 +301,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -330,7 +330,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -359,7 +359,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -388,7 +388,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/create/patients"
+                  to="/patients"
                   type="submit"
                   color="success"
                   variant="contained"

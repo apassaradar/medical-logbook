@@ -93,22 +93,22 @@ export default function Layout({ children }) {
     {
       text: "Courses",
       icon: <AddCircleOutlineOutlined />,
-      path: "/courses",
+      // path: "/courses",
     },
     {
       text: "Patients",
       icon: <AddCircleOutlineOutlined />,
-      path: "/create/patients",
+      path: "/patients",
     },
     {
       text: "First Aid",
       icon: <AddCircleOutlineOutlined />,
-      path: "/create/firstaid",
+      path: "/firstaid",
     },
     {
       text: "HelpMajor",
       icon: <AddCircleOutlineOutlined />,
-      path: "/create/helpmajor",
+      path: "/helpmajor",
     },
     {
       text: "See all courses",

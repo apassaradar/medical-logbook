@@ -16,7 +16,7 @@ const db = mysql.createConnection({
 
 app.get("/patients", (req, res) => {
   db.query(
-    "SELECT dataID, hn, patient_name, ward.name wardName, unit.name unitName, createdAt, updatedAt FROM patients left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID",
+    "SELECT dataID, hn, patient_name, diagnosis, ward.name wardName, unit.name unitName, createdAt, updatedAt FROM patients left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID",
     (err, result) => {
       if (err) {
         console.log(err);

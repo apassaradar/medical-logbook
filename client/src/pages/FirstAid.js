@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateFirstAid() {
+export default function FirstAid() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -149,7 +149,7 @@ export default function CreateFirstAid() {
   return (
     <Container size="sm">
       <Typography
-        variant="h6"
+        variant="h5"
         color="textSecondary"
         component="h2"
         gutterBottom

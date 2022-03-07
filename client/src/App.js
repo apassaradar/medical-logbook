@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Overview from "./pages/Overview";
 import Courses from "./pages/Courses";
-import CreatePatients from "./pages/CreatePatients";
-import CreateFirstAid from "./pages/CreateFirstAid";
-import CreateHelpMajor from "./pages/CreateHelpMajor";
+import Patients from "./pages/Patients";
+import FirstAid from "./pages/FirstAid";
+import HelpMajor from "./pages/HelpMajor";
 import Form from "./components/Form";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Layout from "./components/Layout";
@@ -40,14 +40,14 @@ function App() {
             <Route exact path="/courses">
               <Courses />
             </Route>
-            <Route path="/create/patients">
-              <CreatePatients />
+            <Route path="/patients">
+              <Patients />
             </Route>
-            <Route path="/create/helpmajor">
-              <CreateHelpMajor />
+            <Route path="/helpmajor">
+              <HelpMajor />
             </Route>
-            <Route path="/create/firstaid">
-              <CreateFirstAid />
+            <Route path="/firstaid">
+              <FirstAid />
             </Route>
             <Route path="/form">
               <Form />
