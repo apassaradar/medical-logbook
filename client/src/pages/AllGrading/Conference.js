@@ -63,31 +63,25 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   chip: {
-    backgroundColor: "#d16060",
+    backgroundColor: "#85E36B",
     color: '#ffffff'
   }
 }));
 
-export default function Stitches() {
+export default function Conference() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [hn, setHN] = useState("");
-  const [patient_name, setPatientName] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
-  const [ward, setWard] = useState("");
+  const [con_name, setConName] = useState("");
   const [unit, setUnit] = useState("");
 
-  const [hnError, setHNError] = useState(false);
-  const [patientNameError, setPatientNameError] = useState(false);
-  const [diagnosisError, setDiagnosisError] = useState(false);
-  const [wardError, setWardError] = useState(false);
+  const [conNameError, setConNameError] = useState(false);
   const [unitError, setUnitError] = useState(false);
 
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/stitches");
+    const result = await axios.get("http://localhost:3001/conference");
     setData(result.data.reverse());
   };
 
@@ -97,18 +91,15 @@ export default function Stitches() {
 
  
   const addData = async () => {
-    const result = await axios.post("http://localhost:3001/stitches", {
-      hn: hn,
-      patient_name: patient_name,
-      diagnosis: diagnosis,
-      ward: ward,
+    const result = await axios.post("http://localhost:3001/conference", {
+      con_name: con_name,
       unit: unit,
     });
     window.location.reload();
   };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/stitches/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/conference/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -120,12 +111,8 @@ export default function Stitches() {
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/stitches/${id}`);
+    const result = await axios.delete(`http://localhost:3001/conference/${id}`);
     window.location.reload();
-  };
-
-  const handleChangeWard = (e) => {
-    setWard(e.target.value);
   };
 
   const handleChangeUnit = (e) => {
@@ -134,29 +121,18 @@ export default function Stitches() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setHNError(false);
-    setPatientNameError(false);
-    setDiagnosisError(false);
-    setWardError(false);
+    setConNameError(false);
     setUnitError(false);
 
-    if (hn == "") {
-      setHNError(true);
-    }
-    if (patient_name == "") {
-      setPatientNameError(true);
-    }
-    if (diagnosis == "") {
-      setDiagnosisError(true);
-    }
-    if (ward == "") {
-      setWardError(true);
+
+    if (con_name == "") {
+      setConNameError(true);
     }
     if (unit == "") {
       setUnitError(true);
     }
-    if (hn && patient_name && diagnosis && ward && unit) {
-      console.log(hn, patient_name, diagnosis, ward, unit);
+    if (con_name && unit) {
+      console.log(con_name, unit);
     }
   };
 
@@ -168,71 +144,32 @@ export default function Stitches() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้เย็บแผล
+        การเข้าร่วม Conference ของหน่วย
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เย็บแผล"
+      <Popup title="แก้ไข้ข้อมูล การเข้าร่วม Conference ของหน่วย"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+    
         <TextField
           className={classes.field}
-          onChange={(e) => setHN(e.target.value)}
-          label="H.N."
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          required
-          error={hnError}
-        />
-        <TextField
-          className={classes.field}
-          onChange={(e) => setPatientName(e.target.value)}
-          label="Patient Name"
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          required
-          error={patientNameError}
-        />
-        <TextField
-          className={classes.field}
-          onChange={(e) => setDiagnosis(e.target.value)}
-          label="Diagnosis"
+          onChange={(e) => setConName(e.target.value)}
+          label="Conference Name"
           variant="outlined"
           color="secondary"
           multiline
           rows={4}
           fullWidth
           required
-          error={diagnosisError}
+          error={conNameError}
         />
 
         <Grid container>
           <Grid item xs={6}>
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Ward</InputLabel>
-              <Select
-                labelId="select"
-                id="ward-select"
-                displayEmpty
-                value={ward}
-                required
-                error={wardError}
-                onChange={handleChangeWard}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Ward 1</MenuItem>
-                <MenuItem value={2}>Ward 2</MenuItem>
-                <MenuItem value={3}>Ward 3</MenuItem>
-                <MenuItem value={4}>Ward 4</MenuItem>
-                <MenuItem value={5}>Ward 5</MenuItem>
-              </Select>
-            </FormControl>
-
             <FormControl className={classes.select}>
               <InputLabel shrink>Unit</InputLabel>
               <Select
@@ -280,9 +217,7 @@ export default function Stitches() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>H.N.</TableCell>
-              <TableCell align="left">Patient Name</TableCell>
-              <TableCell align="right">Ward</TableCell>
+              <TableCell align="left">Conference Name</TableCell>
               <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
@@ -295,11 +230,7 @@ export default function Stitches() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {res.hn}
-                </TableCell>
-                <TableCell align="left">{res.patient_name}</TableCell>
-                <TableCell align="right">{res.wardName}</TableCell>
+                <TableCell align="left">{res.con_name}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 

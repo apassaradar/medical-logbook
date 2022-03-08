@@ -116,7 +116,7 @@ export default function Layout({ children }) {
       path: "/courses",
     },
     {
-      text: "Grading",
+      text: "Courses (Teacher)",
       icon: <AddCircleOutlineOutlined />,
       path: "/grading",
     },
@@ -124,7 +124,7 @@ export default function Layout({ children }) {
     {
       text: "Form",
       icon: <AddCircleOutlineOutlined />,
-      path: "/form",
+      path: "/grading/patients",
     },
   ];
 
@@ -135,7 +135,7 @@ export default function Layout({ children }) {
           <IconButton className={classes.icon}>
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.date}>
+          <Typography className={classes.date} >
             Today is {format(new Date(), "do MMM Y")}
           </Typography>
           <Typography className={classes.logout} component={Link} to="/login">
@@ -154,7 +154,7 @@ export default function Layout({ children }) {
           classes={{ paper: classes.drawerPaper }}
         >
           <div>
-            <Typography variant="h5" className={classes.title}>
+            <Typography variant="h5" className={classes.title} >
               Med Logbook
             </Typography>
           </div>
@@ -214,7 +214,6 @@ export default function Layout({ children }) {
 
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-
         {children}
       </div>
     </div>

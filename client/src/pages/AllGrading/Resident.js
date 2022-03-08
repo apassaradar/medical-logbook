@@ -63,31 +63,23 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   chip: {
-    backgroundColor: "#d16060",
+    backgroundColor: "#85E36B",
     color: '#ffffff'
   }
 }));
 
-export default function Stitches() {
+export default function Resident() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [hn, setHN] = useState("");
-  const [patient_name, setPatientName] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
-  const [ward, setWard] = useState("");
-  const [unit, setUnit] = useState("");
+  const [subject, setSubject] = useState("");
 
-  const [hnError, setHNError] = useState(false);
-  const [patientNameError, setPatientNameError] = useState(false);
-  const [diagnosisError, setDiagnosisError] = useState(false);
-  const [wardError, setWardError] = useState(false);
-  const [unitError, setUnitError] = useState(false);
+  const [subjectError, setSubjectError] = useState(false);
 
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/stitches");
+    const result = await axios.get("http://localhost:3001/resident");
     setData(result.data.reverse());
   };
 
@@ -97,18 +89,16 @@ export default function Stitches() {
 
  
   const addData = async () => {
-    const result = await axios.post("http://localhost:3001/stitches", {
-      hn: hn,
-      patient_name: patient_name,
-      diagnosis: diagnosis,
-      ward: ward,
-      unit: unit,
+    const result = await axios.post("http://localhost:3001/resident", {
+      
+      subject: subject
+
     });
     window.location.reload();
   };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/stitches/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/resident/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -120,43 +110,21 @@ export default function Stitches() {
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/stitches/${id}`);
+    const result = await axios.delete(`http://localhost:3001/resident/${id}`);
     window.location.reload();
   };
 
-  const handleChangeWard = (e) => {
-    setWard(e.target.value);
-  };
-
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setHNError(false);
-    setPatientNameError(false);
-    setDiagnosisError(false);
-    setWardError(false);
-    setUnitError(false);
+    setSubjectError(false);
 
-    if (hn == "") {
-      setHNError(true);
+    if (subject == "") {
+      setSubjectError(true);
     }
-    if (patient_name == "") {
-      setPatientNameError(true);
-    }
-    if (diagnosis == "") {
-      setDiagnosisError(true);
-    }
-    if (ward == "") {
-      setWardError(true);
-    }
-    if (unit == "") {
-      setUnitError(true);
-    }
-    if (hn && patient_name && diagnosis && ward && unit) {
-      console.log(hn, patient_name, diagnosis, ward, unit);
+
+    if (subject) {
+      console.log(subject);
     }
   };
 
@@ -168,92 +136,30 @@ export default function Stitches() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้เย็บแผล
+        การสอนของ Resident
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เย็บแผล"
+      <Popup title="แก้ไข้ข้อมูล การสอนของ Resident"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
+    
+      <TextField
           className={classes.field}
-          onChange={(e) => setHN(e.target.value)}
-          label="H.N."
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          required
-          error={hnError}
-        />
-        <TextField
-          className={classes.field}
-          onChange={(e) => setPatientName(e.target.value)}
-          label="Patient Name"
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          required
-          error={patientNameError}
-        />
-        <TextField
-          className={classes.field}
-          onChange={(e) => setDiagnosis(e.target.value)}
-          label="Diagnosis"
+          onChange={(e) => setSubject(e.target.value)}
+          label="เรื่องที่สอน"
           variant="outlined"
           color="secondary"
           multiline
           rows={4}
           fullWidth
           required
-          error={diagnosisError}
+          error={subjectError}
         />
 
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Ward</InputLabel>
-              <Select
-                labelId="select"
-                id="ward-select"
-                displayEmpty
-                value={ward}
-                required
-                error={wardError}
-                onChange={handleChangeWard}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Ward 1</MenuItem>
-                <MenuItem value={2}>Ward 2</MenuItem>
-                <MenuItem value={3}>Ward 3</MenuItem>
-                <MenuItem value={4}>Ward 4</MenuItem>
-                <MenuItem value={5}>Ward 5</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Unit</InputLabel>
-              <Select
-                labelId="select"
-                id="unit-select"
-                displayEmpty
-                value={unit}
-                required
-                error={unitError}
-                onChange={handleChangeUnit}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Unit 1</MenuItem>
-                <MenuItem value={2}>Unit 2</MenuItem>
-                <MenuItem value={3}>Unit 3</MenuItem>
-                <MenuItem value={4}>Unit 4</MenuItem>
-                <MenuItem value={5}>Unit 5</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
 
         <Button className={classes.submitbtn}
           type="submit"
@@ -280,10 +186,7 @@ export default function Stitches() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>H.N.</TableCell>
-              <TableCell align="left">Patient Name</TableCell>
-              <TableCell align="right">Ward</TableCell>
-              <TableCell align="right">Unit</TableCell>
+              <TableCell align="left">เรื่องที่สอน</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
               <TableCell align="left">Status</TableCell>
@@ -295,12 +198,7 @@ export default function Stitches() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {res.hn}
-                </TableCell>
-                <TableCell align="left">{res.patient_name}</TableCell>
-                <TableCell align="right">{res.wardName}</TableCell>
-                <TableCell align="right">{res.unitName}</TableCell>
+                <TableCell align="left">{res.subject}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
                     dateFormat="DMY" 

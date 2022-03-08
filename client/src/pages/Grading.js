@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     maxWidth: 345,
-    backgroundColor: "#548acc",
+    backgroundColor: "#E5A944 ",
     color: "#ffffff",
     height: 120,
     // alignItems: "center",
@@ -44,16 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Courses() {
+export default function Grading() {
   const classes = useStyles();
 
   return (
     <Container>
 
-      <Typography
-        variant="h4"
-        gutterBottom
-      >
+      <Typography variant="h4" gutterBottom>
         วิชาเรียนทั้งหมด
       </Typography>
 
@@ -77,7 +74,7 @@ export default function Courses() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/patients"
+                  to="/grading/patients"
                   type="submit"
                   color="success"
                   variant="contained"
