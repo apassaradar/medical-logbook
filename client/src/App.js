@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Overview from "./pages/Overview";
 import Courses from "./pages/Courses";
 import Patients from "./pages/AllCourses/Patients";
-import OPD from "./pages/AllCourses/OPD"
-import Conference from "./pages/AllCourses/Conference"
+import OPD from "./pages/AllCourses/OPD";
+import Conference from "./pages/AllCourses/Conference";
 import Emergency from "./pages/AllCourses/Emergency";
 import HelpMajor from "./pages/AllCourses/HelpMajor";
 import ObserveMajor from "./pages/AllCourses/ObserveMajor";
@@ -19,8 +19,6 @@ import Layout from "./components/Layout";
 import LogIn from "./pages/Login";
 import Grading from "./pages/Grading";
 import GradingPatients from "./pages/AllGrading/GradingPatients";
-
-
 
 const theme = createTheme({
   palette: {
@@ -42,11 +40,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Layout>
-          <Switch>
-            <Route path="/login">
-              <LogIn />
-            </Route>
+        <Switch>
+          <Route path="/login">
+            <LogIn />
+          </Route>
+          <Layout>
             <Route exact path="/">
               <Overview />
             </Route>
@@ -98,8 +96,8 @@ function App() {
             <Route path="/grading/patients">
               <GradingPatients />
             </Route>
-          </Switch>
-        </Layout>
+          </Layout>
+        </Switch>
       </Router>
     </ThemeProvider>
   );
