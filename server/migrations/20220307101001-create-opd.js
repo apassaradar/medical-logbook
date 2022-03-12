@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('opds', {
+    await queryInterface.createTable('opd', {
        dataID: {
         autoIncrement: true,
         primaryKey: true,
@@ -62,6 +62,6 @@ module.exports = {
     );
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('opds');
+    await queryInterface.dropTable('opd');
   }
 };
