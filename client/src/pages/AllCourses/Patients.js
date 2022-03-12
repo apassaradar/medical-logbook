@@ -322,7 +322,7 @@ export default function Patients() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  <Chip label="graded" className={classes.chip} />
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}

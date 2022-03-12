@@ -68,18 +68,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function OPD() {
+export default function GradingConference() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
+  const [con_name, setConName] = useState("");
   const [unit, setUnit] = useState("");
 
+  const [conNameError, setConNameError] = useState(false);
   const [unitError, setUnitError] = useState(false);
 
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/opd");
+    const result = await axios.get("http://localhost:3001/conference");
     setData(result.data.reverse());
   };
 
@@ -88,15 +90,9 @@ export default function OPD() {
   }, []);
 
  
-  const addData = async () => {
-    const result = await axios.post("http://localhost:3001/opd", {
-      unit: unit,
-    });
-    window.location.reload();
-  };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/opd/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/conference/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -107,27 +103,6 @@ export default function OPD() {
   // };
 
 
-  const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/opd/${id}`);
-    window.location.reload();
-  };
-
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUnitError(false);
-
-    if (unit == "") {
-      setUnitError(true);
-    }
-    if (unit) {
-      console.log(unit);
-    }
-  };
-
   return (
     <Container size="sm">
       <Typography
@@ -136,67 +111,22 @@ export default function OPD() {
         component="h2"
         gutterBottom
       >
-        การเข้าเรียนที่ OPD 
+        การเข้าร่วม Conference ของหน่วย
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การเข้าเรียนที่ OPD"
+      <Popup title="แก้ไข้ข้อมูล การเข้าร่วม Conference ของหน่วย"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
       </Popup>
 
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-
-        <Grid container>
-          <Grid item xs={6}>
-
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Unit</InputLabel>
-              <Select
-                labelId="select"
-                id="unit-select"
-                displayEmpty
-                value={unit}
-                required
-                error={unitError}
-                onChange={handleChangeUnit}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Unit 1</MenuItem>
-                <MenuItem value={2}>Unit 2</MenuItem>
-                <MenuItem value={3}>Unit 3</MenuItem>
-                <MenuItem value={4}>Unit 4</MenuItem>
-                <MenuItem value={5}>Unit 5</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <Button className={classes.submitbtn}
-          type="submit"
-          color="success"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
-          onClick={addData}
-        >
-          Submit
-        </Button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        ข้อมูลที่ทำการเพิ่ม
-      </Typography>
+      
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+            <TableCell align="left">User</TableCell>
+              <TableCell align="left">Conference Name</TableCell>
               <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
@@ -209,6 +139,8 @@ export default function OPD() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="left">{res.con_name}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
@@ -241,14 +173,6 @@ export default function OPD() {
                     onClick={() => setOpenPopup(true)}
                   >
                     Edit
-                  </Button>
-                  <Button className={classes.delbtn}
-                    type="button"
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
-                  >
-                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

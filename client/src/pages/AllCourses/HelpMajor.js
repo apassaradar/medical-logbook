@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   chip: {
-    backgroundColor: "#85E36B",
+    backgroundColor: "#E5A944",
     color: '#ffffff'
   }
 }));
@@ -322,7 +322,7 @@ export default function HelpMajor() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  <Chip label="pending" className={classes.chip} />
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}

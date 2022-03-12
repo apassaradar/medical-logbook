@@ -68,18 +68,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Emergency() {
+export default function GradingOPD() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [experience, setExperience] = useState("");
+  const [unit, setUnit] = useState("");
 
-  const [experienceError, setExperienceError] = useState(false);
+  const [unitError, setUnitError] = useState(false);
 
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/emergency");
+    const result = await axios.get("http://localhost:3001/opd");
     setData(result.data.reverse());
   };
 
@@ -88,17 +88,9 @@ export default function Emergency() {
   }, []);
 
  
-  const addData = async () => {
-    const result = await axios.post("http://localhost:3001/emergency", {
-      
-      experience: experience
-
-    });
-    window.location.reload();
-  };
-
+  
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/emergency/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/opd/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -110,23 +102,10 @@ export default function Emergency() {
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/emergency/${id}`);
+    const result = await axios.delete(`http://localhost:3001/opd/${id}`);
     window.location.reload();
   };
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setExperienceError(false);
-
-    if (experience == "") {
-      setExperienceError(true);
-    }
-
-    if (experience) {
-      console.log(experience);
-    }
-  };
 
   return (
     <Container size="sm">
@@ -136,57 +115,22 @@ export default function Emergency() {
         component="h2"
         gutterBottom
       >
-        การอยู่เวรห้องฉุกเฉิน
+        การเข้าเรียนที่ OPD 
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การอยู่เวรห้องฉุกเฉิน"
+      <Popup title="แก้ไข้ข้อมูล การเข้าเรียนที่ OPD"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
       </Popup>
 
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-    
-      <TextField
-          className={classes.field}
-          onChange={(e) => setExperience(e.target.value)}
-          label="วินิจฉัย หรือประสบการณ์ที่ได้รับ"
-          variant="outlined"
-          color="secondary"
-          multiline
-          rows={4}
-          fullWidth
-          required
-          error={experienceError}
-        />
-
-
-        <Button className={classes.submitbtn}
-          type="submit"
-          color="success"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
-          onClick={addData}
-        >
-          Submit
-        </Button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        ข้อมูลที่ทำการเพิ่ม
-      </Typography>
+     
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">วินิจฉัย หรือประสบการณ์ที่ได้รับ</TableCell>
+            <TableCell align="left">User</TableCell>
+              <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
               <TableCell align="left">Status</TableCell>
@@ -198,7 +142,8 @@ export default function Emergency() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{res.experience}</TableCell>
+                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
                     dateFormat="DMY" 
@@ -230,14 +175,6 @@ export default function Emergency() {
                     onClick={() => setOpenPopup(true)}
                   >
                     Edit
-                  </Button>
-                  <Button className={classes.delbtn}
-                    type="button"
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
-                  >
-                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

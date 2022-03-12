@@ -68,20 +68,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Conference() {
+export default function GradingResident() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [con_name, setConName] = useState("");
-  const [unit, setUnit] = useState("");
+  const [subject, setSubject] = useState("");
 
-  const [conNameError, setConNameError] = useState(false);
-  const [unitError, setUnitError] = useState(false);
+  const [subjectError, setSubjectError] = useState(false);
 
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/conference");
+    const result = await axios.get("http://localhost:3001/resident");
     setData(result.data.reverse());
   };
 
@@ -90,16 +88,8 @@ export default function Conference() {
   }, []);
 
  
-  const addData = async () => {
-    const result = await axios.post("http://localhost:3001/conference", {
-      con_name: con_name,
-      unit: unit,
-    });
-    window.location.reload();
-  };
-
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/conference/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/resident/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -110,31 +100,7 @@ export default function Conference() {
   // };
 
 
-  const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/conference/${id}`);
-    window.location.reload();
-  };
-
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setConNameError(false);
-    setUnitError(false);
-
-
-    if (con_name == "") {
-      setConNameError(true);
-    }
-    if (unit == "") {
-      setUnitError(true);
-    }
-    if (con_name && unit) {
-      console.log(con_name, unit);
-    }
-  };
+  
 
   return (
     <Container size="sm">
@@ -144,81 +110,22 @@ export default function Conference() {
         component="h2"
         gutterBottom
       >
-        การเข้าร่วม Conference ของหน่วย
+        การสอนของ Resident
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การเข้าร่วม Conference ของหน่วย"
+      <Popup title="แก้ไข้ข้อมูล การสอนของ Resident"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
       </Popup>
 
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
     
-        <TextField
-          className={classes.field}
-          onChange={(e) => setConName(e.target.value)}
-          label="Conference Name"
-          variant="outlined"
-          color="secondary"
-          multiline
-          rows={4}
-          fullWidth
-          required
-          error={conNameError}
-        />
-
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Unit</InputLabel>
-              <Select
-                labelId="select"
-                id="unit-select"
-                displayEmpty
-                value={unit}
-                required
-                error={unitError}
-                onChange={handleChangeUnit}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Unit 1</MenuItem>
-                <MenuItem value={2}>Unit 2</MenuItem>
-                <MenuItem value={3}>Unit 3</MenuItem>
-                <MenuItem value={4}>Unit 4</MenuItem>
-                <MenuItem value={5}>Unit 5</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <Button className={classes.submitbtn}
-          type="submit"
-          color="success"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
-          onClick={addData}
-        >
-          Submit
-        </Button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        ข้อมูลที่ทำการเพิ่ม
-      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">Conference Name</TableCell>
-              <TableCell align="right">Unit</TableCell>
+              <TableCell align="left">User</TableCell>
+              <TableCell align="left">เรื่องที่สอน</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
               <TableCell align="left">Status</TableCell>
@@ -230,8 +137,8 @@ export default function Conference() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{res.con_name}</TableCell>
-                <TableCell align="right">{res.unitName}</TableCell>
+                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="left">{res.subject}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
                     dateFormat="DMY" 
@@ -263,14 +170,6 @@ export default function Conference() {
                     onClick={() => setOpenPopup(true)}
                   >
                     Edit
-                  </Button>
-                  <Button className={classes.delbtn}
-                    type="button"
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
-                  >
-                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

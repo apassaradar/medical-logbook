@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ObserveMajor() {
+export default function GradingObserveMajor() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -96,16 +96,6 @@ export default function ObserveMajor() {
   }, []);
 
  
-  const addData = async () => {
-    const result = await axios.post("http://localhost:3001/observemajor", {
-      hn: hn,
-      patient_name: patient_name,
-      diagnosis: diagnosis,
-      ward: ward,
-      unit: unit,
-    });
-    window.location.reload();
-  };
 
   // const updateData = async (id) => {
   //   const result = await axios.put(`http://localhost:3001/observemajor/${id}`, {
@@ -118,47 +108,6 @@ export default function ObserveMajor() {
     
   // };
 
-
-  const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/observemajor/${id}`);
-    window.location.reload();
-  };
-
-  const handleChangeWard = (e) => {
-    setWard(e.target.value);
-  };
-
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setHNError(false);
-    setPatientNameError(false);
-    setDiagnosisError(false);
-    setWardError(false);
-    setUnitError(false);
-
-    if (hn == "") {
-      setHNError(true);
-    }
-    if (patient_name == "") {
-      setPatientNameError(true);
-    }
-    if (diagnosis == "") {
-      setDiagnosisError(true);
-    }
-    if (ward == "") {
-      setWardError(true);
-    }
-    if (unit == "") {
-      setUnitError(true);
-    }
-    if (hn && patient_name && diagnosis && ward && unit) {
-      console.log(hn, patient_name, diagnosis, ward, unit);
-    }
-  };
 
   return (
     <Container size="sm">
@@ -177,110 +126,12 @@ export default function ObserveMajor() {
         <Form />
       </Popup>
 
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
-          className={classes.field}
-          onChange={(e) => setHN(e.target.value)}
-          label="H.N."
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          required
-          error={hnError}
-        />
-        <TextField
-          className={classes.field}
-          onChange={(e) => setPatientName(e.target.value)}
-          label="Patient Name"
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          required
-          error={patientNameError}
-        />
-        <TextField
-          className={classes.field}
-          onChange={(e) => setDiagnosis(e.target.value)}
-          label="Diagnosis"
-          variant="outlined"
-          color="secondary"
-          multiline
-          rows={4}
-          fullWidth
-          required
-          error={diagnosisError}
-        />
-
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Ward</InputLabel>
-              <Select
-                labelId="select"
-                id="ward-select"
-                displayEmpty
-                value={ward}
-                required
-                error={wardError}
-                onChange={handleChangeWard}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Ward 1</MenuItem>
-                <MenuItem value={2}>Ward 2</MenuItem>
-                <MenuItem value={3}>Ward 3</MenuItem>
-                <MenuItem value={4}>Ward 4</MenuItem>
-                <MenuItem value={5}>Ward 5</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl className={classes.select}>
-              <InputLabel shrink>Unit</InputLabel>
-              <Select
-                labelId="select"
-                id="unit-select"
-                displayEmpty
-                value={unit}
-                required
-                error={unitError}
-                onChange={handleChangeUnit}
-              >
-                <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Unit 1</MenuItem>
-                <MenuItem value={2}>Unit 2</MenuItem>
-                <MenuItem value={3}>Unit 3</MenuItem>
-                <MenuItem value={4}>Unit 4</MenuItem>
-                <MenuItem value={5}>Unit 5</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <Button className={classes.submitbtn}
-          type="submit"
-          color="success"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
-          onClick={addData}
-        >
-          Submit
-        </Button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        ข้อมูลที่ทำการเพิ่ม
-      </Typography>
+      
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>H.N.</TableCell>
+              <TableCell align="left">User</TableCell>
               <TableCell align="left">Patient Name</TableCell>
               <TableCell align="right">Ward</TableCell>
               <TableCell align="right">Unit</TableCell>
@@ -296,7 +147,7 @@ export default function ObserveMajor() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {res.hn}
+                  {res.userID}
                 </TableCell>
                 <TableCell align="left">{res.patient_name}</TableCell>
                 <TableCell align="right">{res.wardName}</TableCell>
@@ -332,14 +183,6 @@ export default function ObserveMajor() {
                     onClick={() => setOpenPopup(true)}
                   >
                     Edit
-                  </Button>
-                  <Button className={classes.delbtn}
-                    type="button"
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
-                  >
-                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

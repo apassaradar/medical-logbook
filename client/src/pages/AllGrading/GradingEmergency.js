@@ -68,18 +68,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Resident() {
+export default function GradingEmergency() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [subject, setSubject] = useState("");
+  const [experience, setExperience] = useState("");
 
-  const [subjectError, setSubjectError] = useState(false);
+  const [experienceError, setExperienceError] = useState(false);
 
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/resident");
+    const result = await axios.get("http://localhost:3001/emergency");
     setData(result.data.reverse());
   };
 
@@ -88,17 +88,9 @@ export default function Resident() {
   }, []);
 
  
-  const addData = async () => {
-    const result = await axios.post("http://localhost:3001/resident", {
-      
-      subject: subject
-
-    });
-    window.location.reload();
-  };
 
   // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/resident/${id}`, {
+  //   const result = await axios.put(`http://localhost:3001/emergency/${id}`, {
   //     hn: hn,
   //     patient_name: patient_name,
   //     diagnosis: diagnosis,
@@ -109,24 +101,6 @@ export default function Resident() {
   // };
 
 
-  const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/resident/${id}`);
-    window.location.reload();
-  };
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubjectError(false);
-
-    if (subject == "") {
-      setSubjectError(true);
-    }
-
-    if (subject) {
-      console.log(subject);
-    }
-  };
 
   return (
     <Container size="sm">
@@ -136,57 +110,22 @@ export default function Resident() {
         component="h2"
         gutterBottom
       >
-        การสอนของ Resident
+        การอยู่เวรห้องฉุกเฉิน
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การสอนของ Resident"
+      <Popup title="แก้ไข้ข้อมูล การอยู่เวรห้องฉุกเฉิน"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
         <Form />
       </Popup>
 
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-    
-      <TextField
-          className={classes.field}
-          onChange={(e) => setSubject(e.target.value)}
-          label="เรื่องที่สอน"
-          variant="outlined"
-          color="secondary"
-          multiline
-          rows={4}
-          fullWidth
-          required
-          error={subjectError}
-        />
 
-
-        <Button className={classes.submitbtn}
-          type="submit"
-          color="success"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
-          onClick={addData}
-        >
-          Submit
-        </Button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        ข้อมูลที่ทำการเพิ่ม
-      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">เรื่องที่สอน</TableCell>
+              <TableCell align="left">User</TableCell>
+              <TableCell align="left">วินิจฉัย หรือประสบการณ์ที่ได้รับ</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
               <TableCell align="left">Status</TableCell>
@@ -198,7 +137,8 @@ export default function Resident() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{res.subject}</TableCell>
+                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="left">{res.experience}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
                     dateFormat="DMY" 
@@ -230,14 +170,6 @@ export default function Resident() {
                     onClick={() => setOpenPopup(true)}
                   >
                     Edit
-                  </Button>
-                  <Button className={classes.delbtn}
-                    type="button"
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
-                  >
-                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

@@ -19,6 +19,17 @@ import Layout from "./components/Layout";
 import LogIn from "./pages/Login";
 import Grading from "./pages/Grading";
 import GradingPatients from "./pages/AllGrading/GradingPatients";
+import GradingOPD from "./pages/AllGrading/GradingOPD";
+import GradingConference from "./pages/AllGrading/GradingConference";
+import GradingEmergency from "./pages/AllGrading/GradingEmergency";
+import GradingObserveMajor from "./pages/AllGrading/GradingObserveMajor";
+import GradingHelpMajor from "./pages/AllGrading/GradingHelpMajor";
+import GradingHelpObserveMinor from "./pages/AllGrading/GradingHelpObserveMinor";
+import GradingFirstAid from "./pages/AllGrading/GradingFirstAid";
+import GradingStitches from "./pages/AllGrading/GradingStitches";
+import GradingFoleyCath from "./pages/AllGrading/GradingFoleyCath";
+import GradingCVP from "./pages/AllGrading/GradingCVP";
+import GradingResident from "./pages/AllGrading/GradingResident";
 
 const theme = createTheme({
   palette: {
@@ -93,8 +104,41 @@ function App() {
             <Route path="/grading">
               <Grading />
             </Route>
-            <Route path="/grading/patients">
+            <Route path="/gradingpatients">
               <GradingPatients />
+            </Route>
+            <Route path="/gradingopd">
+              <GradingOPD />
+            </Route>
+            <Route path="/gradingconference">
+              <GradingConference />
+            </Route>
+            <Route path="/gradingemergency">
+              <GradingEmergency />
+            </Route>
+            <Route path="/gradingobservemajor">
+              <GradingObserveMajor />
+            </Route>
+            <Route path="/gradinghelpmajor">
+              <GradingHelpMajor />
+            </Route>
+            <Route path="/gradinghelpobserveminor">
+              <GradingHelpObserveMinor />
+            </Route>
+            <Route path="/gradingfirstaid">
+              <GradingFirstAid />
+            </Route>
+            <Route path="/gradingstitches">
+              <GradingStitches />
+            </Route>
+            <Route path="/gradingfoleycath">
+              <GradingFoleyCath />
+            </Route>
+            <Route path="/gradingcvp">
+              <GradingCVP />
+            </Route>
+            <Route path="/gradingresident">
+              <GradingResident />
             </Route>
           </Layout>
         </Switch>

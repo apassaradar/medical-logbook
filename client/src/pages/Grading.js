@@ -74,7 +74,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/grading/patients"
+                  to="/gradingpatients"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -103,7 +103,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/opd"
+                  to="/gradingopd"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -132,7 +132,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/conference"
+                  to="/gradingconference"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -161,7 +161,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/emergency"
+                  to="/gradingemergency"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -190,7 +190,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/observemajor"
+                  to="/gradingobservemajor"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -219,7 +219,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/helpmajor"
+                  to="/gradinghelpmajor"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -248,7 +248,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/helpobserveminor"
+                  to="/gradinghelpobserveminor"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -277,7 +277,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/firstaid"
+                  to="/gradingfirstaid"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -306,7 +306,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/stitches"
+                  to="/gradingstitches"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -335,7 +335,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/foleycath"
+                  to="/gradingfoleycath"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -364,7 +364,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/cvp"
+                  to="/gradingcvp"
                   type="submit"
                   color="success"
                   variant="contained"
@@ -393,7 +393,7 @@ export default function Grading() {
                 <Button
                   className={classes.btn}
                   component={Link}
-                  to="/resident"
+                  to="/gradingresident"
                   type="submit"
                   color="success"
                   variant="contained"
