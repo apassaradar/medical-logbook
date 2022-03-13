@@ -169,7 +169,7 @@ export default function GradingResident() {
                     endIcon={<EditIcon />}
                     onClick={() => setOpenPopup(true)}
                   >
-                    Edit
+                    APPROVE
                   </Button>
                 </TableCell>
               </TableRow>

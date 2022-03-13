@@ -12,7 +12,7 @@ const db = mysql.createConnection({
   host: "localhost",
   password: "",
   // database: "medical-logbook",
-   database: "medstudentlogbook",
+   database: "medical-logbook",
 });
 
 app.get("/patients", (req, res) => {

@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import GradedForm from "../../components/GradedForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -116,10 +116,10 @@ export default function GradingPatients() {
         รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
+      <Popup title="ตรวจสอบ รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <GradedForm />
       </Popup>
 
       
@@ -179,7 +179,7 @@ export default function GradingPatients() {
                     endIcon={<EditIcon />}
                     onClick={() => setOpenPopup(true)}
                   >
-                    Edit
+                    CHECK
                   </Button>
                 </TableCell>
               </TableRow>

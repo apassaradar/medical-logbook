@@ -174,7 +174,7 @@ export default function GradingOPD() {
                     endIcon={<EditIcon />}
                     onClick={() => setOpenPopup(true)}
                   >
-                    Edit
+                    APPROVE
                   </Button>
                 </TableCell>
               </TableRow>

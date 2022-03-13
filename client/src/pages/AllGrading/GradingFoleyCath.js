@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import GradedForm from "../../components/GradedForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -121,10 +121,10 @@ export default function GradingFoleyCath() {
         รายชื่อผู้ป่วยที่ได้ใส่ Foley Cath.
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้ใส่ Foley Cath."
+      <Popup title="ตรวจสอบ รายชื่อผู้ป่วยที่ได้ใส่ Foley Cath."
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <GradedForm />
       </Popup>
 
       
@@ -183,7 +183,7 @@ export default function GradingFoleyCath() {
                     endIcon={<EditIcon />}
                     onClick={() => setOpenPopup(true)}
                   >
-                    Edit
+                    CHECK
                   </Button>
                 </TableCell>
               </TableRow>
