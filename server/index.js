@@ -11,7 +11,8 @@ const db = mysql.createConnection({
   user: "root",
   host: "localhost",
   password: "",
-  database: "medical-logbook",
+  // database: "medical-logbook",
+   database: "medstudentlogbook",
 });
 
 app.get("/patients", (req, res) => {
