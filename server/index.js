@@ -15,6 +15,54 @@ const db = mysql.createConnection({
    database: "medical-logbook",
 });
 
+
+app.get("/users", (req, res) => {
+  db.query(
+    "SELECT userID, fname, lname, email, role.name role FROM users left join role on role.id = users.roleID",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.post("/users", (req, res) => {
+  const fname = req.body.fname;
+  const lname = req.body.lname;
+  const email = req.body.email;
+  const role = req.body.role;
+
+  db.query(
+    "INSERT INTO users (fname, lname, email, roleID, password) VALUES (?,?,?,?,123456)",
+    [fname, lname, email, role],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Data Inserted");
+      }
+    }
+  );
+});
+
+app.delete("/users/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+
+  db.query("DELETE FROM users WHERE userID = ?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+
+
 app.get("/patients", (req, res) => {
   db.query(
     "SELECT dataID, userID, hn, patient_name, diagnosis, ward.name wardName, unit.name unitName, createdAt, updatedAt FROM patients left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID",
