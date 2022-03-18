@@ -30,6 +30,9 @@ import GradingStitches from "./pages/AllGrading/GradingStitches";
 import GradingFoleyCath from "./pages/AllGrading/GradingFoleyCath";
 import GradingCVP from "./pages/AllGrading/GradingCVP";
 import GradingResident from "./pages/AllGrading/GradingResident";
+import { AuthContext } from "./helpers/AuthContext";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -48,8 +51,40 @@ const theme = createTheme({
 });
 
 function App() {
+
+  const [authState, setAuthState] = useState({
+    email: "",
+    id: 0,
+    status: false,
+  });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/auth/auth", {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          setAuthState({ ...authState, status: false });
+        } else {
+          setAuthState({
+            email: response.data.email,
+            id: response.data.id,
+            status: true,
+          });
+        }
+      });
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setAuthState({email: "", id: 0, status: false });
+  };
   return (
     <ThemeProvider theme={theme}>
+       <AuthContext.Provider value={{ authState, setAuthState }}>
       <Router>
         <Switch>
           <Route path="/login">
@@ -143,6 +178,7 @@ function App() {
           </Layout>
         </Switch>
       </Router>
+       </AuthContext.Provider>
     </ThemeProvider>
   );
 }

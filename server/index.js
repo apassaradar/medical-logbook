@@ -6,14 +6,19 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+const DB = require("./models");
 const db = mysql.createConnection({
   user: "root",
   host: "localhost",
   password: "",
-   database: "medical-logbook",
-   database: "medstudentlogbook",
+  //  database: "medical-logbook",
+    database: "medstudentlogbook",
 });
+
+const usersRouter = require("./routes/Users");
+app.use("/auth", usersRouter);
+
+
 
 app.get("/patients", (req, res) => {
   db.query(
