@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import GradingConferenceForm from "../../components/AllGradingForm/GradingConferenceForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +62,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chip: {
+  chipsuccess: {
     backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#f2ed49",
     color: '#ffffff'
   }
 }));
@@ -80,6 +84,8 @@ export default function GradingConference() {
 
   const [data, setData] = useState([]);
 
+  const [editItem, setEditItem] = useState({});
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/conference");
     setData(result.data.reverse());
@@ -89,18 +95,11 @@ export default function GradingConference() {
     getData();
   }, []);
 
- 
-
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/conference/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
 
 
   return (
@@ -114,10 +113,10 @@ export default function GradingConference() {
         การเข้าร่วม Conference ของหน่วย
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การเข้าร่วม Conference ของหน่วย"
+      <Popup title="ตรวจสอบ การเข้าร่วม Conference ของหน่วย"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <GradingConferenceForm editItem={editItem} />
       </Popup>
 
       
@@ -125,7 +124,7 @@ export default function GradingConference() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-            <TableCell align="left">User</TableCell>
+            <TableCell align="left">Student</TableCell>
               <TableCell align="left">Conference Name</TableCell>
               <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
@@ -139,7 +138,7 @@ export default function GradingConference() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="left">{res.userName}</TableCell>
                 <TableCell align="left">{res.con_name}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
@@ -163,16 +162,17 @@ export default function GradingConference() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
-                    Edit
+                    CHECK
                   </Button>
                 </TableCell>
               </TableRow>

@@ -122,9 +122,9 @@ export default function Layout({ children }) {
     },
 
     {
-      text: "Form",
+      text: "Manage (Admin)",
       icon: <AddCircleOutlineOutlined />,
-      path: "/grading/patients",
+      path: "/manage",
     },
   ];
 

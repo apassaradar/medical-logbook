@@ -4,16 +4,8 @@ import SimpleDateTime  from 'react-simple-timestamp-to-date';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,7 +14,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import GradingEmergencyForm from "../../components/AllGradingForm/GradingEmergencyForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +54,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chip: {
+  chipsuccess: {
     backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#f2ed49",
     color: '#ffffff'
   }
 }));
@@ -78,6 +74,8 @@ export default function GradingEmergency() {
 
   const [data, setData] = useState([]);
 
+  const [editItem, setEditItem] = useState({});
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/emergency");
     setData(result.data.reverse());
@@ -89,18 +87,12 @@ export default function GradingEmergency() {
 
  
 
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/emergency/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
-
-
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
+  
 
   return (
     <Container size="sm">
@@ -113,10 +105,10 @@ export default function GradingEmergency() {
         การอยู่เวรห้องฉุกเฉิน
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การอยู่เวรห้องฉุกเฉิน"
+      <Popup title="ตรวจสอบ การอยู่เวรห้องฉุกเฉิน"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <GradingEmergencyForm editItem={editItem} />
       </Popup>
 
 
@@ -124,7 +116,7 @@ export default function GradingEmergency() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">User</TableCell>
+              <TableCell align="left">Student</TableCell>
               <TableCell align="left">วินิจฉัย หรือประสบการณ์ที่ได้รับ</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
@@ -137,7 +129,7 @@ export default function GradingEmergency() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="left">{res.userName}</TableCell>
                 <TableCell align="left">{res.experience}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
@@ -160,16 +152,17 @@ export default function GradingEmergency() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
-                    Edit
+                    CHECK
                   </Button>
                 </TableCell>
               </TableRow>

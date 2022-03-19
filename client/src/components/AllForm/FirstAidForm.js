@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({editItem}) {
+export default function FirstAidForm({editItem}) {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 

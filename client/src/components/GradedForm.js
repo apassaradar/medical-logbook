@@ -35,17 +35,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({editItem}) {
+export default function GradedForm() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [hn, setHN] = useState("");
+  const [user, setUser] = useState("");
   const [patient_name, setPatientName] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
   const [ward, setWard] = useState("");
   const [unit, setUnit] = useState("");
 
-  const [hnError, setHNError] = useState(false);
+  const [userError, setUserError] = useState(false);
   const [patientNameError, setPatientNameError] = useState(false);
   const [diagnosisError, setDiagnosisError] = useState(false);
   const [wardError, setWardError] = useState(false);
@@ -53,18 +53,9 @@ export default function Form({editItem}) {
 
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    setHN(editItem.hn)
-    setPatientName(editItem.patient_name)
-    setDiagnosis(editItem.diagnosis)
-    setWard(editItem.wardID)
-    setUnit(editItem.unitID)
-    console.log(editItem)
-  }, [editItem]);
-
-  const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/firstaid/${editItem.dataID}`, {
-      hn: hn,
+  const addData = async () => {
+    const result = await axios.post("http://localhost:3001/patients", {
+      user: user,
       patient_name: patient_name,
       diagnosis: diagnosis,
       ward: ward,
@@ -72,7 +63,6 @@ export default function Form({editItem}) {
     });
     window.location.reload();
   };
-
 
   const handleChangeWard = (e) => {
     setWard(e.target.value);
@@ -84,14 +74,14 @@ export default function Form({editItem}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setHNError(false);
+    setUserError(false);
     setPatientNameError(false);
     setDiagnosisError(false);
     setWardError(false);
     setUnitError(false);
 
-    if (hn == "") {
-      setHNError(true);
+    if (user == "") {
+      setUserError(true);
     }
     if (patient_name == "") {
       setPatientNameError(true);
@@ -112,26 +102,18 @@ export default function Form({editItem}) {
 
   return (
     <Container size="sm">
-      {/* <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
-      </Typography> */}
+      
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           className={classes.field}
-          onChange={(e) => setHN(e.target.value)}
-          label="H.N."
+          onChange={(e) => setUser(e.target.value)}
+          label="User"
           variant="outlined"
           color="secondary"
           fullWidth
           required
-          error={hnError}
-          value={hn}
+          error={userError}
         />
         <TextField
           className={classes.field}
@@ -142,7 +124,6 @@ export default function Form({editItem}) {
           fullWidth
           required
           error={patientNameError}
-          value={patient_name}
         />
         <TextField
           className={classes.field}
@@ -155,7 +136,6 @@ export default function Form({editItem}) {
           fullWidth
           required
           error={diagnosisError}
-          value={diagnosis}
         />
 
         <Grid container>
@@ -208,9 +188,9 @@ export default function Form({editItem}) {
           color="success"
           variant="contained"
           endIcon={<CheckIcon />}
-          onClick={updateData}
+          onClick={addData}
         >
-          Update
+          APPROVE
         </Button>
       </form>
     </Container>

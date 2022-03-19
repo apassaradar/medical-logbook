@@ -21,9 +21,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Popup from "../../components/Popup";
-import OPDForm from "../../components/AllForm/OPDForm"
-import Chip from "@material-ui/core/Chip";
+import Popup from "../components/Popup";
+import Form from "../components/Form"
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   field: {
@@ -62,30 +64,30 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chipsuccess: {
+  chip: {
     backgroundColor: "#85E36B",
-    color: '#ffffff'
-  },
-  chippending: {
-    backgroundColor: "#F2E05D",
     color: '#ffffff'
   }
 }));
 
-export default function OPD() {
+export default function Manage() {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [unit, setUnit] = useState("");
+  const [fname, setFirstName] = useState("");
+  const [lname, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
-  const [unitError, setUnitError] = useState(false);
+  const [fnameError, setFirstNameError] = useState(false);
+  const [lnameError, setLastNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [roleError, setRoleError] = useState(false);
 
   const [data, setData] = useState([]);
 
-  const [editItem, setEditItem] = useState({});
-
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/opd");
+    const result = await axios.get("http://localhost:3001/users");
     setData(result.data.reverse());
   };
 
@@ -95,37 +97,59 @@ export default function OPD() {
 
  
   const addData = async () => {
-    const result = await axios.post("http://localhost:3001/opd", {
-      unit: unit,
+    const result = await axios.post("http://localhost:3001/users", {
+      fname: fname,
+      lname: lname,
+      email: email,
+      role: role
     });
     window.location.reload();
   };
 
-  const editData = (item) => {
-    setOpenPopup(true)
-    setEditItem(item)
-    // console.log(item)
-  }
+  // const updateData = async (id) => {
+  //   const result = await axios.put(`http://localhost:3001/users/${id}`, {
+  //     hn: hn,
+  //     patient_name: patient_name,
+  //     diagnosis: diagnosis,
+  //     ward: ward,
+  //     unit: unit,
+  //   });
+    
+  // };
 
 
   const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/opd/${id}`);
+    const result = await axios.delete(`http://localhost:3001/users/${id}`);
     window.location.reload();
   };
 
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
+  const handleChangeRole = (e) => {
+    setRole(e.target.value);
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUnitError(false);
+    setFirstNameError(false);
+    setLastNameError(false);
+    setEmailError(false);
+    setRoleError(false);
 
-    if (unit == "") {
-      setUnitError(true);
+    if (fname == "") {
+      setFirstNameError(true);
     }
-    if (unit) {
-      console.log(unit);
+    if (lname == "") {
+      setLastNameError(true);
+    }
+    if (email == "") {
+      setEmailError(true);
+    }
+    if (role == "") {
+      setRoleError(true);
+    }
+    
+    if (fname && lname && email && role) {
+      console.log(fname, lname, email, role);
     }
   };
 
@@ -137,37 +161,65 @@ export default function OPD() {
         component="h2"
         gutterBottom
       >
-        การเข้าเรียนที่ OPD 
+        เพิ่มนักศึกษา อาจารย์ หรือแอดมิน
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การเข้าเรียนที่ OPD"
+      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <OPDForm editItem={editItem}/>
+        <Form />
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          className={classes.field}
+          onChange={(e) => setFirstName(e.target.value)}
+          label="First Name"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          required
+          error={fnameError}
+        />
+        <TextField
+          className={classes.field}
+          onChange={(e) => setLastName(e.target.value)}
+          label="Last Name"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          required
+          error={lnameError}
+        />
+        <TextField
+          className={classes.field}
+          onChange={(e) => setEmail(e.target.value)}
+          label="Email"
+          type="email"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          required
+          error={emailError}
+        />
 
         <Grid container>
           <Grid item xs={6}>
-
             <FormControl className={classes.select}>
-              <InputLabel shrink>Unit</InputLabel>
+              <InputLabel shrink>Role</InputLabel>
               <Select
                 labelId="select"
-                id="unit-select"
+                id="role-select"
                 displayEmpty
-                value={unit}
+                value={role}
                 required
-                error={unitError}
-                onChange={handleChangeUnit}
+                error={roleError}
+                onChange={handleChangeRole}
               >
                 <MenuItem value={""}> </MenuItem>
-                <MenuItem value={1}>Unit 1</MenuItem>
-                <MenuItem value={2}>Unit 2</MenuItem>
-                <MenuItem value={3}>Unit 3</MenuItem>
-                <MenuItem value={4}>Unit 4</MenuItem>
-                <MenuItem value={5}>Unit 5</MenuItem>
+                <MenuItem value={1}>Admin</MenuItem>
+                <MenuItem value={2}>Teacher</MenuItem>
+                <MenuItem value={3}>Student</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -198,10 +250,10 @@ export default function OPD() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="right">Unit</TableCell>
-              <TableCell align="left">Created At</TableCell>
-              <TableCell align="left">Updated At</TableCell>
-              <TableCell align="left">Status</TableCell>
+              <TableCell align="left">First Name</TableCell>
+              <TableCell align="left">Last Name</TableCell>
+              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Role</TableCell>
               <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
@@ -210,37 +262,18 @@ export default function OPD() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="right">{res.unitName}</TableCell>
-                <TableCell align="left">
-                  <SimpleDateTime 
-                    dateFormat="DMY" 
-                    dateSeparator="-"  
-                    timeSeparator=":" 
-                    meridians="1"
-                  >
-                    {res.createdAt}
-                  </SimpleDateTime>
+                <TableCell component="th" scope="row">
+                  {res.fname}
                 </TableCell>
-                <TableCell align="left">
-                  <SimpleDateTime 
-                    dateFormat="DMY" 
-                    dateSeparator="-"  
-                    timeSeparator=":" 
-                    meridians="1"
-                  >
-                    {res.updatedAt}
-                  </SimpleDateTime>
-                </TableCell>
-                <TableCell align="left">
-                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
-                  
-                </TableCell>
+                <TableCell align="left">{res.lname}</TableCell>
+                <TableCell align="left">{res.email}</TableCell>
+                <TableCell align="left">{res.role}</TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => editData(res)}
+                    onClick={() => setOpenPopup(true)}
                   >
                     Edit
                   </Button>
@@ -248,7 +281,7 @@ export default function OPD() {
                     type="button"
                     variant="contained"
                     endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
+                    onClick={() => deleteData(res.userID)}
                   >
                     Delete
                   </Button>
@@ -260,4 +293,5 @@ export default function OPD() {
       </TableContainer>
     </Container>
   );
+
 }

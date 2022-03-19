@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({editItem}) {
+export default function StitchesForm({editItem}) {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -63,7 +63,7 @@ export default function Form({editItem}) {
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/firstaid/${editItem.dataID}`, {
+    const result = await axios.put(`http://localhost:3001/stitches/${editItem.dataID}`, {
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,

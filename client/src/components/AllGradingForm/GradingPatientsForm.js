@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
   delbtn: {
     backgroundColor: "#d16060",
     color: "#ffffff",
-  },
+  }
 }));
 
-export default function Form({editItem}) {
+export default function GradingPatientsForm({editItem}) {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -44,6 +44,7 @@ export default function Form({editItem}) {
   const [diagnosis, setDiagnosis] = useState("");
   const [ward, setWard] = useState("");
   const [unit, setUnit] = useState("");
+  const [status, setStatus] = useState("");
 
   const [hnError, setHNError] = useState(false);
   const [patientNameError, setPatientNameError] = useState(false);
@@ -59,16 +60,13 @@ export default function Form({editItem}) {
     setDiagnosis(editItem.diagnosis)
     setWard(editItem.wardID)
     setUnit(editItem.unitID)
+    setStatus(editItem.status)
     console.log(editItem)
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/firstaid/${editItem.dataID}`, {
-      hn: hn,
-      patient_name: patient_name,
-      diagnosis: diagnosis,
-      ward: ward,
-      unit: unit,
+    const result = await axios.put(`http://localhost:3001/gradingpatients/${editItem.dataID}`, {
+      status: 1
     });
     window.location.reload();
   };
@@ -112,15 +110,7 @@ export default function Form({editItem}) {
 
   return (
     <Container size="sm">
-      {/* <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
-      </Typography> */}
-
+      
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           className={classes.field}
@@ -129,7 +119,7 @@ export default function Form({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={hnError}
           value={hn}
         />
@@ -140,7 +130,7 @@ export default function Form({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={patientNameError}
           value={patient_name}
         />
@@ -153,7 +143,7 @@ export default function Form({editItem}) {
           multiline
           rows={4}
           fullWidth
-          required
+          disabled
           error={diagnosisError}
           value={diagnosis}
         />
@@ -167,7 +157,7 @@ export default function Form({editItem}) {
                 id="ward-select"
                 displayEmpty
                 value={ward}
-                required
+                disabled
                 error={wardError}
                 onChange={handleChangeWard}
               >
@@ -187,7 +177,7 @@ export default function Form({editItem}) {
                 id="unit-select"
                 displayEmpty
                 value={unit}
-                required
+                disabled
                 error={unitError}
                 onChange={handleChangeUnit}
               >
@@ -210,7 +200,7 @@ export default function Form({editItem}) {
           endIcon={<CheckIcon />}
           onClick={updateData}
         >
-          Update
+          Approve
         </Button>
       </form>
     </Container>

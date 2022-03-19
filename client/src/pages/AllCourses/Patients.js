@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SimpleDateTime  from 'react-simple-timestamp-to-date';
+import SimpleDateTime from "react-simple-timestamp-to-date";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
 import { makeStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
@@ -22,7 +23,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import PatientsForm from "../../components/AllForm/PatientsForm";
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,40 +31,43 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     marginBottom: 20,
     display: "block",
-    
   },
   select: {
     margin: theme.spacing(1),
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: '#fefefe',
-    color: '#00695c',
+    backgroundColor: "#fefefe",
+    color: "#00695c",
     "&:hover": {
       backgroundColor: "#00695c",
-      color: '#ffffff'
-    }
+      color: "#ffffff",
+    },
   },
   editbtn: {
-    backgroundColor: '#ffffff',
-    color: '#548acc',
+    backgroundColor: "#ffffff",
+    color: "#548acc",
     marginRight: 10,
     "&:hover": {
       backgroundColor: "#548acc",
-      color: '#ffffff'
-    }
+      color: "#ffffff",
+    },
   },
   delbtn: {
-    backgroundColor: '#ffffff',
-    color: '#d16060',
+    backgroundColor: "#ffffff",
+    color: "#d16060",
     marginRight: 10,
     "&:hover": {
       backgroundColor: "#d16060",
-      color: '#ffffff'
-    }
+      color: "#ffffff",
+    },
   },
-  chip: {
+  chipsuccess: {
     backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#F2E05D",
     color: '#ffffff'
   }
 }));
@@ -86,6 +90,8 @@ export default function Patients() {
 
   const [data, setData] = useState([]);
 
+  const [editItem, setEditItem] = useState({});
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/patients");
     setData(result.data.reverse());
@@ -95,7 +101,6 @@ export default function Patients() {
     getData();
   }, []);
 
- 
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/patients", {
       hn: hn,
@@ -107,17 +112,12 @@ export default function Patients() {
     window.location.reload();
   };
 
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/patients/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
 
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
 
   const deleteData = async (id) => {
     const result = await axios.delete(`http://localhost:3001/patients/${id}`);
@@ -170,13 +170,14 @@ export default function Patients() {
       >
         รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
       </Typography>
-
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
-        openPopup={openPopup} 
-        setOpenPopup={setOpenPopup}>
-        <Form />
+      <Popup
+        title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <PatientsForm editItem={editItem}/>
       </Popup>
-
+      
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           className={classes.field}
@@ -255,7 +256,8 @@ export default function Patients() {
           </Grid>
         </Grid>
 
-        <Button className={classes.submitbtn}
+        <Button
+          className={classes.submitbtn}
           type="submit"
           color="success"
           variant="contained"
@@ -302,38 +304,41 @@ export default function Patients() {
                 <TableCell align="right">{res.wardName}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
-                  <SimpleDateTime 
-                    dateFormat="DMY" 
-                    dateSeparator="-"  
-                    timeSeparator=":" 
+                  <SimpleDateTime
+                    dateFormat="DMY"
+                    dateSeparator="-"
+                    timeSeparator=":"
                     meridians="1"
                   >
                     {res.createdAt}
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <SimpleDateTime 
-                    dateFormat="DMY" 
-                    dateSeparator="-"  
-                    timeSeparator=":" 
+                  <SimpleDateTime
+                    dateFormat="DMY"
+                    dateSeparator="-"
+                    timeSeparator=":"
                     meridians="1"
                   >
                     {res.updatedAt}
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="graded" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
-                  <Button className={classes.editbtn}
+                  <Button
+                    className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res) }
                   >
                     Edit
                   </Button>
-                  <Button className={classes.delbtn}
+                  <Button
+                    className={classes.delbtn}
                     type="button"
                     variant="contained"
                     endIcon={<DeleteIcon />}

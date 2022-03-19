@@ -30,9 +30,13 @@ import GradingStitches from "./pages/AllGrading/GradingStitches";
 import GradingFoleyCath from "./pages/AllGrading/GradingFoleyCath";
 import GradingCVP from "./pages/AllGrading/GradingCVP";
 import GradingResident from "./pages/AllGrading/GradingResident";
+
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+import Manage from "./pages/Manage";
+
 
 const theme = createTheme({
   palette: {
@@ -174,6 +178,9 @@ function App() {
             </Route>
             <Route path="/gradingresident">
               <GradingResident />
+            </Route>
+            <Route path="/manage">
+              <Manage />
             </Route>
           </Layout>
         </Switch>

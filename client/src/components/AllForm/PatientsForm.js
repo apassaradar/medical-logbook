@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({editItem}) {
+export default function PatientsForm({editItem}) {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -63,7 +63,7 @@ export default function Form({editItem}) {
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/firstaid/${editItem.dataID}`, {
+    const result = await axios.put(`http://localhost:3001/patients/${editItem.dataID}`, {
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
@@ -112,15 +112,7 @@ export default function Form({editItem}) {
 
   return (
     <Container size="sm">
-      {/* <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
-      </Typography> */}
-
+      
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           className={classes.field}
