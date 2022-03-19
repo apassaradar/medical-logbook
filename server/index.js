@@ -65,7 +65,7 @@ app.delete("/users/:id", (req, res) => {
 
 app.get("/patients", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM patients left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID",
+    "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -136,7 +136,7 @@ app.put("/patients/:id", (req, res) => {
 
 app.get("/opd", (req, res) => {
   db.query(
-    "SELECT dataID, userID, unitID, unit.name unitName, createdAt, updatedAt, status FROM opd left join unit on unit.id = opd.unitID",
+    "SELECT dataID, opd.userID, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM opd left join users on users.userID = opd.userID left join unit on unit.id = opd.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -200,7 +200,7 @@ app.put("/opd/:id", (req, res) => {
 
 app.get("/conference", (req, res) => {
   db.query(
-    "SELECT dataID, userID, con_name, unitID, unit.name unitName, createdAt, updatedAt, status FROM conference left join unit on unit.id = conference.unitID",
+    "SELECT dataID, conference.userID, con_name, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM conference left join users on users.userID = conference.userID left join unit on unit.id = conference.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -266,7 +266,7 @@ app.put("/conference/:id", (req, res) => {
 
 app.get("/emergency", (req, res) => {
   db.query(
-    "SELECT dataID, userID, experience, createdAt, updatedAt, status FROM emergency",
+    "SELECT dataID, emergency.userID, experience, users.fname userName, createdAt, updatedAt, status FROM emergency left join users on users.userID = emergency.userID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -330,7 +330,7 @@ app.put("/emergency/:id", (req, res) => {
 
 app.get("/observemajor", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM observemajor left join ward on ward.id = observemajor.wardID left join unit on unit.id = observemajor.unitID",
+    "SELECT dataID, observemajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM observemajor left join users on users.userID = observemajor.userID left join ward on ward.id = observemajor.wardID left join unit on unit.id = observemajor.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -401,7 +401,7 @@ app.put("/observemajor/:id", (req, res) => {
 
 app.get("/helpmajor", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpmajor left join ward on ward.id = helpmajor.wardID left join unit on unit.id = helpmajor.unitID",
+    "SELECT dataID, helpmajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName,ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpmajor left join users on users.userID = helpmajor.userID left join ward on ward.id = helpmajor.wardID left join unit on unit.id = helpmajor.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -471,7 +471,7 @@ app.put("/helpmajor/:id", (req, res) => {
 
 app.get("/helpobserveminor", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpobserveminor left join ward on ward.id = helpobserveminor.wardID left join unit on unit.id = helpobserveminor.unitID",
+    "SELECT dataID, helpobserveminor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpobserveminor left join users on users.userID = helpobserveminor.userID left join ward on ward.id = helpobserveminor.wardID left join unit on unit.id = helpobserveminor.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -541,7 +541,7 @@ app.put("/helpobserveminor/:id", (req, res) => {
 
 app.get("/firstaid", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM firstaid left join ward on ward.id = firstaid.wardID left join unit on unit.id = firstaid.unitID",
+    "SELECT dataID, firstaid.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM firstaid left join users on users.userID = firstaid.userID left join ward on ward.id = firstaid.wardID left join unit on unit.id = firstaid.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -611,7 +611,7 @@ app.put("/firstaid/:id", (req, res) => {
 
 app.get("/stitches", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM stitches left join ward on ward.id = stitches.wardID left join unit on unit.id = stitches.unitID",
+    "SELECT dataID, stitches.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM stitches left join users on users.userID = stitches.userID left join ward on ward.id = stitches.wardID left join unit on unit.id = stitches.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -681,7 +681,7 @@ app.put("/stitches/:id", (req, res) => {
 
 app.get("/foleycath", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM foleycath left join ward on ward.id = foleycath.wardID left join unit on unit.id = foleycath.unitID",
+    "SELECT dataID, foleycath.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM foleycath left join users on users.userID = foleycath.userID left join ward on ward.id = foleycath.wardID left join unit on unit.id = foleycath.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -751,7 +751,7 @@ app.put("/foleycath/:id", (req, res) => {
 
 app.get("/cvp", (req, res) => {
   db.query(
-    "SELECT dataID, userID, hn, patient_name, diagnosis, wardID, unitID, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM cvp left join ward on ward.id = cvp.wardID left join unit on unit.id = cvp.unitID",
+    "SELECT dataID, cvp.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM cvp left join users on users.userID = cvp.userID left join ward on ward.id = cvp.wardID left join unit on unit.id = cvp.unitID",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -822,7 +822,7 @@ app.put("/cvp/:id", (req, res) => {
 
 app.get("/resident", (req, res) => {
   db.query(
-    "SELECT dataID, userID, subject, createdAt, updatedAt, status FROM resident",
+    "SELECT dataID, resident.userID, subject, users.fname userName, createdAt, updatedAt, status FROM resident left join users on users.userID = resident.userID",
     (err, result) => {
       if (err) {
         console.log(err);

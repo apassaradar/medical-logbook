@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import GradingOPDForm from "../../components/AllGradingForm/GradingOPDForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +62,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chip: {
+  chipsuccess: {
     backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#f2ed49",
     color: '#ffffff'
   }
 }));
@@ -78,6 +82,8 @@ export default function GradingOPD() {
 
   const [data, setData] = useState([]);
 
+  const [editItem, setEditItem] = useState({});
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/opd");
     setData(result.data.reverse());
@@ -89,22 +95,12 @@ export default function GradingOPD() {
 
  
   
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/opd/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
 
-
-  const deleteData = async (id) => {
-    const result = await axios.delete(`http://localhost:3001/opd/${id}`);
-    window.location.reload();
-  };
 
 
   return (
@@ -118,10 +114,10 @@ export default function GradingOPD() {
         การเข้าเรียนที่ OPD 
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล การเข้าเรียนที่ OPD"
+      <Popup title="ตรวจสอบ การเข้าเรียนที่ OPD"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <GradingOPDForm editItem={editItem} />
       </Popup>
 
      
@@ -129,7 +125,7 @@ export default function GradingOPD() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-            <TableCell align="left">User</TableCell>
+            <TableCell align="left">Student</TableCell>
               <TableCell align="right">Unit</TableCell>
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
@@ -142,7 +138,7 @@ export default function GradingOPD() {
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{res.userID}</TableCell>
+                <TableCell align="left">{res.userName}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
                   <SimpleDateTime 
@@ -165,16 +161,17 @@ export default function GradingOPD() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
-                    APPROVE
+                    CHECK
                   </Button>
                 </TableCell>
               </TableRow>

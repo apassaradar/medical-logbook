@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
   delbtn: {
     backgroundColor: "#d16060",
     color: "#ffffff",
-  }
+  },
 }));
 
-export default function GradingPatientsForm({editItem}) {
+export default function GradingCVPForm({editItem}) {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -63,12 +63,12 @@ export default function GradingPatientsForm({editItem}) {
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/patients/${editItem.dataID}`, {
+    const result = await axios.put(`http://localhost:3001/cvp/${editItem.dataID}`, {
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
       ward: ward,
-      unit: unit
+      unit: unit,
     });
     window.location.reload();
   };
@@ -113,6 +113,7 @@ export default function GradingPatientsForm({editItem}) {
   return (
     <Container size="sm">
       
+
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           className={classes.field}

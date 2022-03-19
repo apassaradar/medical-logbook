@@ -4,17 +4,8 @@ import SimpleDateTime from "react-simple-timestamp-to-date";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import CheckIcon from "@material-ui/icons/Check";
 import { makeStyles } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -108,45 +99,7 @@ export default function GradingPatients() {
     setEditItem(item)
     // console.log(item)
   }
-
-
   
-
-  const handleChangeWard = (e) => {
-    setWard(e.target.value);
-  };
-
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setHNError(false);
-    setPatientNameError(false);
-    setDiagnosisError(false);
-    setWardError(false);
-    setUnitError(false);
-
-    if (hn == "") {
-      setHNError(true);
-    }
-    if (patient_name == "") {
-      setPatientNameError(true);
-    }
-    if (diagnosis == "") {
-      setDiagnosisError(true);
-    }
-    if (ward == "") {
-      setWardError(true);
-    }
-    if (unit == "") {
-      setUnitError(true);
-    }
-    if (hn && patient_name && diagnosis && ward && unit) {
-      console.log(hn, patient_name, diagnosis, ward, unit);
-    }
-  };
 
   return (
     <Container size="sm">
@@ -187,7 +140,7 @@ export default function GradingPatients() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {res.userID}
+                  {res.userName}
                 </TableCell>
                 <TableCell align="left">{res.patient_name}</TableCell>
                 <TableCell align="right">{res.wardName}</TableCell>

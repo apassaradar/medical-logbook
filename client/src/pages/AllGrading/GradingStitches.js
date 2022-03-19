@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import GradedForm from "../../components/GradedForm"
+import GradingStitchesForm from "../../components/AllGradingForm/GradingStitchesForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +62,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chip: {
-    backgroundColor: "#d16060",
+  chipsuccess: {
+    backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#f2ed49",
     color: '#ffffff'
   }
 }));
@@ -86,6 +90,8 @@ export default function GradingStitches() {
 
   const [data, setData] = useState([]);
 
+  const [editItem, setEditItem] = useState({});
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/stitches");
     setData(result.data.reverse());
@@ -97,17 +103,12 @@ export default function GradingStitches() {
 
  
 
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/stitches/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
-
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
+  
 
   
   return (
@@ -124,7 +125,7 @@ export default function GradingStitches() {
       <Popup title="ตรวจสอบ รายชื่อผู้ป่วยที่ได้เย็บแผล"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <GradedForm />
+        <GradingStitchesForm editItem={editItem} />
       </Popup>
 
      
@@ -132,7 +133,7 @@ export default function GradingStitches() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">User</TableCell>
+              <TableCell align="left">Student</TableCell>
               <TableCell align="left">Patient Name</TableCell>
               <TableCell align="right">Ward</TableCell>
               <TableCell align="right">Unit</TableCell>
@@ -148,7 +149,7 @@ export default function GradingStitches() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {res.userID}
+                  {res.userName}
                 </TableCell>
                 <TableCell align="left">{res.patient_name}</TableCell>
                 <TableCell align="right">{res.wardName}</TableCell>
@@ -174,14 +175,15 @@ export default function GradingStitches() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
                     CHECK
                   </Button>
