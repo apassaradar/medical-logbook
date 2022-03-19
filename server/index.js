@@ -6,66 +6,60 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const DB = require("./models");
+
 const db = mysql.createConnection({
   user: "root",
   host: "localhost",
   password: "",
-
-  //  database: "medical-logbook",
-    database: "medstudentlogbook",
+  // database: "medical-logbook",
+   database: "medical-logbook",
 });
 
-const usersRouter = require("./routes/Users");
-app.use("/auth", usersRouter);
 
+app.get("/users", (req, res) => {
+  db.query(
+    "SELECT userID, fname, lname, email, role.name role FROM users left join role on role.id = users.roleID",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
 
+app.post("/users", (req, res) => {
+  const fname = req.body.fname;
+  const lname = req.body.lname;
+  const email = req.body.email;
+  const role = req.body.role;
 
-// app.get("/users", (req, res) => {
-//   db.query(
-//     "SELECT userID, fname, lname, email, role.name role FROM users left join role on role.id = users.roleID",
-//     (err, result) => {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.send(result);
-//       }
-//     }
-//   );
-// });
+  db.query(
+    "INSERT INTO users (fname, lname, email, roleID, password) VALUES (?,?,?,?,123456)",
+    [fname, lname, email, role],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Data Inserted");
+      }
+    }
+  );
+});
 
-// app.post("/users", (req, res) => {
-//   const fname = req.body.fname;
-//   const lname = req.body.lname;
-//   const email = req.body.email;
-//   const role = req.body.role;
+app.delete("/users/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
 
-//   db.query(
-//     "INSERT INTO users (fname, lname, email, roleID, password) VALUES (?,?,?,?,123456)",
-//     [fname, lname, email, role],
-//     (err, result) => {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.send("Data Inserted");
-//       }
-//     }
-//   );
-// });
-
-// app.delete("/users/:id", (req, res) => {
-//   const id = req.params.id;
-//   console.log(id);
-
-//   db.query("DELETE FROM users WHERE userID = ?", id, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });
-
+  db.query("DELETE FROM users WHERE userID = ?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 
 
