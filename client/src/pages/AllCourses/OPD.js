@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import OPDForm from "../../components/AllForm/OPDForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +62,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chip: {
+  chipsuccess: {
     backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#F2E05D",
     color: '#ffffff'
   }
 }));
@@ -77,6 +81,8 @@ export default function OPD() {
   const [unitError, setUnitError] = useState(false);
 
   const [data, setData] = useState([]);
+
+  const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/opd");
@@ -95,16 +101,11 @@ export default function OPD() {
     window.location.reload();
   };
 
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/opd/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
 
 
   const deleteData = async (id) => {
@@ -142,7 +143,7 @@ export default function OPD() {
       <Popup title="แก้ไข้ข้อมูล การเข้าเรียนที่ OPD"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <OPDForm editItem={editItem}/>
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -231,14 +232,15 @@ export default function OPD() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
                     Edit
                   </Button>

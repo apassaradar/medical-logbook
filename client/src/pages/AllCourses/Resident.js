@@ -9,11 +9,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,7 +17,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import ResidentForm from "../../components/AllForm/ResidentForm"
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +57,12 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff'
     }
   },
-  chip: {
+  chipsuccess: {
     backgroundColor: "#85E36B",
+    color: '#ffffff'
+  },
+  chippending: {
+    backgroundColor: "#F2E05D",
     color: '#ffffff'
   }
 }));
@@ -77,6 +76,8 @@ export default function Resident() {
   const [subjectError, setSubjectError] = useState(false);
 
   const [data, setData] = useState([]);
+
+  const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/resident");
@@ -97,16 +98,11 @@ export default function Resident() {
     window.location.reload();
   };
 
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/resident/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
+  const editData = (item) => {
+    setOpenPopup(true)
+    setEditItem(item)
+    // console.log(item)
+  }
 
 
   const deleteData = async (id) => {
@@ -142,7 +138,7 @@ export default function Resident() {
       <Popup title="แก้ไข้ข้อมูล การสอนของ Resident"
         openPopup={openPopup} 
         setOpenPopup={setOpenPopup}>
-        <Form />
+        <ResidentForm editItem={editItem}/>
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -220,14 +216,15 @@ export default function Resident() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="success" className={classes.chip} />
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
                 </TableCell>
                 <TableCell align="left">
                   <Button className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
                     Edit
                   </Button>

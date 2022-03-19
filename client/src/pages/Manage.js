@@ -161,7 +161,7 @@ export default function Manage() {
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
+        เพิ่มนักศึกษา อาจารย์ หรือแอดมิน
       </Typography>
 
       <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล"

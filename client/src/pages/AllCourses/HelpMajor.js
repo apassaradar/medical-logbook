@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SimpleDateTime  from 'react-simple-timestamp-to-date';
+import SimpleDateTime from "react-simple-timestamp-to-date";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -22,7 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import Form from "../../components/Form"
+import HelpMajorForm from "../../components/AllForm/HelpMajorForm";
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,42 +30,45 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     marginBottom: 20,
     display: "block",
-    
   },
   select: {
     margin: theme.spacing(1),
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: '#fefefe',
-    color: '#00695c',
+    backgroundColor: "#fefefe",
+    color: "#00695c",
     "&:hover": {
       backgroundColor: "#00695c",
-      color: '#ffffff'
-    }
+      color: "#ffffff",
+    },
   },
   editbtn: {
-    backgroundColor: '#ffffff',
-    color: '#548acc',
+    backgroundColor: "#ffffff",
+    color: "#548acc",
     marginRight: 10,
     "&:hover": {
       backgroundColor: "#548acc",
-      color: '#ffffff'
-    }
+      color: "#ffffff",
+    },
   },
   delbtn: {
-    backgroundColor: '#ffffff',
-    color: '#d16060',
+    backgroundColor: "#ffffff",
+    color: "#d16060",
     marginRight: 10,
     "&:hover": {
       backgroundColor: "#d16060",
-      color: '#ffffff'
-    }
+      color: "#ffffff",
+    },
   },
-  chip: {
-    backgroundColor: "#E5A944",
-    color: '#ffffff'
-  }
+  chipsuccess: {
+    backgroundColor: "#85E36B",
+    color: "#ffffff",
+  },
+  chippending: {
+    backgroundColor: "#F2E05D",
+    color: "#ffffff",
+  },
 }));
 
 export default function HelpMajor() {
@@ -86,6 +89,8 @@ export default function HelpMajor() {
 
   const [data, setData] = useState([]);
 
+  const [editItem, setEditItem] = useState({});
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/helpmajor");
     setData(result.data.reverse());
@@ -95,7 +100,6 @@ export default function HelpMajor() {
     getData();
   }, []);
 
- 
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/helpmajor", {
       hn: hn,
@@ -107,17 +111,11 @@ export default function HelpMajor() {
     window.location.reload();
   };
 
-  // const updateData = async (id) => {
-  //   const result = await axios.put(`http://localhost:3001/helpmajor/${id}`, {
-  //     hn: hn,
-  //     patient_name: patient_name,
-  //     diagnosis: diagnosis,
-  //     ward: ward,
-  //     unit: unit,
-  //   });
-    
-  // };
-
+  const editData = (item) => {
+    setOpenPopup(true);
+    setEditItem(item);
+    // console.log(item)
+  };
 
   const deleteData = async (id) => {
     const result = await axios.delete(`http://localhost:3001/helpmajor/${id}`);
@@ -171,10 +169,12 @@ export default function HelpMajor() {
         รายชื่อผู้ป่วยที่ได้เข้าช่วยการผ่าตัดใหญ่
       </Typography>
 
-      <Popup title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เข้าช่วยการผ่าตัดใหญ่"
-        openPopup={openPopup} 
-        setOpenPopup={setOpenPopup}>
-        <Form />
+      <Popup
+        title="แก้ไข้ข้อมูล รายชื่อผู้ป่วยที่ได้เข้าช่วยการผ่าตัดใหญ่"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <HelpMajorForm editItem={editItem} />
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -255,7 +255,8 @@ export default function HelpMajor() {
           </Grid>
         </Grid>
 
-        <Button className={classes.submitbtn}
+        <Button
+          className={classes.submitbtn}
           type="submit"
           color="success"
           variant="contained"
@@ -302,38 +303,44 @@ export default function HelpMajor() {
                 <TableCell align="right">{res.wardName}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
-                  <SimpleDateTime 
-                    dateFormat="DMY" 
-                    dateSeparator="-"  
-                    timeSeparator=":" 
+                  <SimpleDateTime
+                    dateFormat="DMY"
+                    dateSeparator="-"
+                    timeSeparator=":"
                     meridians="1"
                   >
                     {res.createdAt}
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <SimpleDateTime 
-                    dateFormat="DMY" 
-                    dateSeparator="-"  
-                    timeSeparator=":" 
+                  <SimpleDateTime
+                    dateFormat="DMY"
+                    dateSeparator="-"
+                    timeSeparator=":"
                     meridians="1"
                   >
                     {res.updatedAt}
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  <Chip label="pending" className={classes.chip} />
+                  {res.status == 1 ? (
+                    <Chip label="success" className={classes.chipsuccess} />
+                  ) : (
+                    <Chip label="pending" className={classes.chippending} />
+                  )}
                 </TableCell>
                 <TableCell align="left">
-                  <Button className={classes.editbtn}
+                  <Button
+                    className={classes.editbtn}
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => editData(res)}
                   >
                     Edit
                   </Button>
-                  <Button className={classes.delbtn}
+                  <Button
+                    className={classes.delbtn}
                     type="button"
                     variant="contained"
                     endIcon={<DeleteIcon />}
