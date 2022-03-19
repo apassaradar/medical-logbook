@@ -133,6 +133,25 @@ app.put("/patients/:id", (req, res) => {
   );
 });
 
+app.put("/gradingpatients/:id", (req, res) => {
+
+  const id = req.params.id;
+  
+  const status = req.body.status;
+
+  db.query(
+    "UPDATE patients SET status=1 WHERE dataID = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Data Inserted");
+      }
+    }
+  );
+});
+
 
 app.get("/opd", (req, res) => {
   db.query(

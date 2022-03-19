@@ -44,6 +44,7 @@ export default function GradingPatientsForm({editItem}) {
   const [diagnosis, setDiagnosis] = useState("");
   const [ward, setWard] = useState("");
   const [unit, setUnit] = useState("");
+  const [status, setStatus] = useState("");
 
   const [hnError, setHNError] = useState(false);
   const [patientNameError, setPatientNameError] = useState(false);
@@ -59,16 +60,13 @@ export default function GradingPatientsForm({editItem}) {
     setDiagnosis(editItem.diagnosis)
     setWard(editItem.wardID)
     setUnit(editItem.unitID)
+    setStatus(editItem.status)
     console.log(editItem)
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/patients/${editItem.dataID}`, {
-      hn: hn,
-      patient_name: patient_name,
-      diagnosis: diagnosis,
-      ward: ward,
-      unit: unit
+    const result = await axios.put(`http://localhost:3001/gradingpatients/${editItem.dataID}`, {
+      status: 1
     });
     window.location.reload();
   };
@@ -121,7 +119,7 @@ export default function GradingPatientsForm({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={hnError}
           value={hn}
         />
@@ -132,7 +130,7 @@ export default function GradingPatientsForm({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={patientNameError}
           value={patient_name}
         />
@@ -145,7 +143,7 @@ export default function GradingPatientsForm({editItem}) {
           multiline
           rows={4}
           fullWidth
-          required
+          disabled
           error={diagnosisError}
           value={diagnosis}
         />
@@ -159,7 +157,7 @@ export default function GradingPatientsForm({editItem}) {
                 id="ward-select"
                 displayEmpty
                 value={ward}
-                required
+                disabled
                 error={wardError}
                 onChange={handleChangeWard}
               >
@@ -179,7 +177,7 @@ export default function GradingPatientsForm({editItem}) {
                 id="unit-select"
                 displayEmpty
                 value={unit}
-                required
+                disabled
                 error={unitError}
                 onChange={handleChangeUnit}
               >
