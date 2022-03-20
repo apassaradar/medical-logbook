@@ -88,20 +88,23 @@ export default function GradingCVP() {
   const [wardError, setWardError] = useState(false);
   const [unitError, setUnitError] = useState(false);
 
-  const [data, setData] = useState([]);
+  const [dataPending, setDataPending] = useState([]);
+
+  const [dataSuccess, setDataSuccess] = useState([]);
 
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/cvp");
-    setData(result.data.reverse());
+    const result = await axios.get("http://localhost:3001/gradingcvp");
+    
+    const raw = result.data.reverse();
+    setDataPending(raw.filter((x) => x.status == 0));
+    setDataSuccess(raw.filter((x) => x.status == 1));
   };
 
   useEffect(() => {
     getData();
   }, []);
-
- 
 
   const editData = (item) => {
     setOpenPopup(true)
@@ -110,7 +113,6 @@ export default function GradingCVP() {
   }
   
  
-
   return (
     <Container size="sm">
       <Typography
@@ -128,7 +130,16 @@ export default function GradingCVP() {
         <GradingCVPForm editItem={editItem}/>
       </Popup>
 
-     
+      <br />
+      <br />
+      <Typography
+        variant="h6"
+        color="textSecondary"
+        component="h2"
+        gutterBottom
+      >
+        ข้อมูลที่ยังไม่ได้รับการตรวจ
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -144,7 +155,7 @@ export default function GradingCVP() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((res) => (
+            {dataPending.map((res) => (
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
@@ -193,6 +204,83 @@ export default function GradingCVP() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <br />
+      <br />
+      <br />
+      <Typography
+        variant="h6"
+        color="textSecondary"
+        component="h2"
+        gutterBottom
+      >
+        ข้อมูลที่ได้รับการตรวจแล้ว
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Student</TableCell>
+              <TableCell align="left">Patient Name</TableCell>
+              <TableCell align="right">Ward</TableCell>
+              <TableCell align="right">Unit</TableCell>
+              <TableCell align="left">Created At</TableCell>
+              <TableCell align="left">Updated At</TableCell>
+              <TableCell align="left">Status</TableCell>
+              <TableCell align="left"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataSuccess.map((res) => (
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {res.userName}
+                </TableCell>
+                <TableCell align="left">{res.patient_name}</TableCell>
+                <TableCell align="right">{res.wardName}</TableCell>
+                <TableCell align="right">{res.unitName}</TableCell>
+                <TableCell align="left">
+                  <SimpleDateTime 
+                    dateFormat="DMY" 
+                    dateSeparator="-"  
+                    timeSeparator=":" 
+                    meridians="1"
+                  >
+                    {res.createdAt}
+                  </SimpleDateTime>
+                </TableCell>
+                <TableCell align="left">
+                  <SimpleDateTime 
+                    dateFormat="DMY" 
+                    dateSeparator="-"  
+                    timeSeparator=":" 
+                    meridians="1"
+                  >
+                    {res.updatedAt}
+                  </SimpleDateTime>
+                </TableCell>
+                <TableCell align="left">
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
+                </TableCell>
+                <TableCell align="left">
+                  <Button className={classes.editbtn}
+                    type="button"
+                    variant="contained"
+                    endIcon={<EditIcon />}
+                    onClick={() => editData(res)}
+                  >
+                    CHECK
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
     </Container>
   );
 }

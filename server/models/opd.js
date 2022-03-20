@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   opd.init({
-     id: DataTypes.INTEGER,
+     
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,

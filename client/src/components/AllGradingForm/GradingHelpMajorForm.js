@@ -22,16 +22,21 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: "#00695c",
-    color: "#ffffff",
+    backgroundColor: "#fefefe",
+    color: "#00695c",
+    "&:hover": {
+      backgroundColor: "#00695c",
+      color: "#ffffff",
+    },
   },
   editbtn: {
-    backgroundColor: "#548acc",
-    color: "#ffffff",
-  },
-  delbtn: {
-    backgroundColor: "#d16060",
-    color: "#ffffff",
+    backgroundColor: "#ffffff",
+    color: "#548acc",
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#548acc",
+      color: "#ffffff",
+    },
   },
 }));
 
@@ -63,12 +68,8 @@ export default function GradingHelpMajorForm({editItem}) {
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/helpmajor/${editItem.dataID}`, {
-      hn: hn,
-      patient_name: patient_name,
-      diagnosis: diagnosis,
-      ward: ward,
-      unit: unit,
+    const result = await axios.put(`http://localhost:3001/gradinghelpmajor/${editItem.dataID}`, {
+      status: 1
     });
     window.location.reload();
   };
@@ -113,7 +114,6 @@ export default function GradingHelpMajorForm({editItem}) {
   return (
     <Container size="sm">
       
-
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           className={classes.field}
@@ -122,7 +122,7 @@ export default function GradingHelpMajorForm({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={hnError}
           value={hn}
         />
@@ -133,7 +133,7 @@ export default function GradingHelpMajorForm({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={patientNameError}
           value={patient_name}
         />
@@ -146,7 +146,7 @@ export default function GradingHelpMajorForm({editItem}) {
           multiline
           rows={4}
           fullWidth
-          required
+          disabled
           error={diagnosisError}
           value={diagnosis}
         />
@@ -160,7 +160,7 @@ export default function GradingHelpMajorForm({editItem}) {
                 id="ward-select"
                 displayEmpty
                 value={ward}
-                required
+                disabled
                 error={wardError}
                 onChange={handleChangeWard}
               >
@@ -180,7 +180,7 @@ export default function GradingHelpMajorForm({editItem}) {
                 id="unit-select"
                 displayEmpty
                 value={unit}
-                required
+                disabled
                 error={unitError}
                 onChange={handleChangeUnit}
               >

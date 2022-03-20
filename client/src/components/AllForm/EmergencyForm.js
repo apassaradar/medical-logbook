@@ -67,6 +67,7 @@ export default function EmergencyForm({editItem}) {
   const updateData = async () => {
     const result = await axios.put(`http://localhost:3001/emergency/${editItem.dataID}`, {
     
+      userID: localStorage.getItem('userID'),
       experience: experience
       
     });

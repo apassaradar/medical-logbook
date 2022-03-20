@@ -93,7 +93,7 @@ export default function Patients() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/patients");
+    const result = await axios.get("http://localhost:3001/patients", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -103,6 +103,8 @@ export default function Patients() {
 
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/patients", {
+
+      userID: localStorage.getItem('userID'),
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,

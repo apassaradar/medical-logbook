@@ -72,13 +72,18 @@ export default function GradingEmergency() {
 
   const [experienceError, setExperienceError] = useState(false);
 
-  const [data, setData] = useState([]);
+  const [dataPending, setDataPending] = useState([]);
+
+  const [dataSuccess, setDataSuccess] = useState([]);
 
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/emergency");
-    setData(result.data.reverse());
+    const result = await axios.get("http://localhost:3001/gradingemergency");
+    
+    const raw = result.data.reverse();
+    setDataPending(raw.filter((x) => x.status == 0));
+    setDataSuccess(raw.filter((x) => x.status == 1));
   };
 
   useEffect(() => {
@@ -111,7 +116,16 @@ export default function GradingEmergency() {
         <GradingEmergencyForm editItem={editItem} />
       </Popup>
 
-
+      <br />
+      <br />
+      <Typography
+        variant="h6"
+        color="textSecondary"
+        component="h2"
+        gutterBottom
+      >
+        ข้อมูลที่ยังไม่ได้รับการตรวจ
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -125,7 +139,77 @@ export default function GradingEmergency() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((res) => (
+            {dataPending.map((res) => (
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{res.userName}</TableCell>
+                <TableCell align="left">{res.experience}</TableCell>
+                <TableCell align="left">
+                  <SimpleDateTime 
+                    dateFormat="DMY" 
+                    dateSeparator="-"  
+                    timeSeparator=":" 
+                    meridians="1"
+                  >
+                    {res.createdAt}
+                  </SimpleDateTime>
+                </TableCell>
+                <TableCell align="left">
+                  <SimpleDateTime 
+                    dateFormat="DMY" 
+                    dateSeparator="-"  
+                    timeSeparator=":" 
+                    meridians="1"
+                  >
+                    {res.updatedAt}
+                  </SimpleDateTime>
+                </TableCell>
+                <TableCell align="left">
+                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
+                  
+                </TableCell>
+                <TableCell align="left">
+                  <Button className={classes.editbtn}
+                    type="button"
+                    variant="contained"
+                    endIcon={<EditIcon />}
+                    onClick={() => editData(res)}
+                  >
+                    CHECK
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <br />
+      <br />
+      <br />
+      <Typography
+        variant="h6"
+        color="textSecondary"
+        component="h2"
+        gutterBottom
+      >
+        ข้อมูลที่ได้รับการตรวจแล้ว
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Student</TableCell>
+              <TableCell align="left">วินิจฉัย หรือประสบการณ์ที่ได้รับ</TableCell>
+              <TableCell align="left">Created At</TableCell>
+              <TableCell align="left">Updated At</TableCell>
+              <TableCell align="left">Status</TableCell>
+              <TableCell align="left"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataSuccess.map((res) => (
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >

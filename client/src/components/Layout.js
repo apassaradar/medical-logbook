@@ -1,6 +1,5 @@
 import { IconButton, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import Typography from "@material-ui/core/Typography";
@@ -8,13 +7,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { AddCircleOutlineOutlined, SubjectOutlined } from "@material-ui/icons";
+import { AddCircleOutlineOutlined } from "@material-ui/icons";
 import { useHistory, useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import Avatar from "@material-ui/core/Avatar";
 import ToolBar from "@material-ui/core/ToolBar";
 import { format } from "date-fns";
-// import Avatar from '@material-ui/core/Avatar';
 import MenuIcon from "@material-ui/icons/Menu";
 
 const drawerWidth = 240;
@@ -59,7 +56,7 @@ const useStyles = makeStyles((theme) => {
     logout: {
       marginLeft: theme.spacing(2),
       color: "white",
-      textDecoration: 'none'
+      textDecoration: "none",
     },
     icon: {
       color: "white",
@@ -74,8 +71,8 @@ const useStyles = makeStyles((theme) => {
       color: "white",
     },
     avatar: {
-        marginLeft: theme.spacing(2)
-    }
+      marginLeft: theme.spacing(2),
+    },
   };
 });
 
@@ -84,49 +81,99 @@ export default function Layout({ children }) {
   const history = useHistory();
   const location = useLocation();
 
-  const menuItems = [
-    {
-      text: "Overview",
-      icon: <SubjectOutlined />,
-      path: "/",
-    },
-    {
-      text: "Courses",
-      icon: <AddCircleOutlineOutlined />,
-      // path: "/courses",
-    },
-    {
-      text: "Patients",
-      icon: <AddCircleOutlineOutlined />,
-      path: "/patients",
-    },
-    {
-      text: "First Aid",
-      icon: <AddCircleOutlineOutlined />,
-      path: "/firstaid",
-    },
-    {
-      text: "HelpMajor",
-      icon: <AddCircleOutlineOutlined />,
-      path: "/helpmajor",
-    },
-    {
-      text: "See all courses",
-      icon: <AddCircleOutlineOutlined />,
-      path: "/courses",
-    },
-    {
-      text: "Courses (Teacher)",
-      icon: <AddCircleOutlineOutlined />,
-      path: "/grading",
-    },
+  const [menuItems, setMenuItems] = useState([]);
 
-    {
-      text: "Manage (Admin)",
-      icon: <AddCircleOutlineOutlined />,
-      path: "/manage",
-    },
-  ];
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+
+    if (role == 1) {
+      setMenuItems([
+        // {
+        //   text: "Overview",
+        //   icon: <SubjectOutlined />,
+        //   path: "/",
+        // },
+        {
+          text: "Manage (Admin)",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/manage",
+        },
+        {
+          text: "Log out",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/login",
+        }
+      ]);
+    } else if (role == 2) {
+      setMenuItems([
+        // {
+        //   text: "Overview",
+        //   icon: <SubjectOutlined />,
+        //   path: "/",
+        // },
+        {
+          text: "Courses (Teacher)",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/grading",
+        },
+        {
+          text: "Log out",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/login",
+        }
+      ]);
+    } else if (role == 3) {
+      setMenuItems([
+        // {
+        //   text: "Overview",
+        //   icon: <SubjectOutlined />,
+        //   path: "/",
+        // },
+        {
+          text: "Courses",
+          icon: <AddCircleOutlineOutlined />,
+          // path: "/courses",
+        },
+        {
+          text: "Patients",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/patients",
+        },
+        {
+          text: "First Aid",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/firstaid",
+        },
+        {
+          text: "HelpMajor",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/helpmajor",
+        },
+        {
+          text: "See all courses",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/courses",
+        },
+        {
+          text: "Log out",
+          icon: <AddCircleOutlineOutlined />,
+          path: "/login",
+        }
+      ]);
+    }
+  }, []);
+
+  useEffect(() => {
+  
+    const fname = localStorage.getItem("fname");
+    const lname = localStorage.getItem("lname");
+    setName(fname + " " + lname);
+
+  }, []);
+  
+
 
   return (
     <div className={classes.root}>
@@ -135,13 +182,12 @@ export default function Layout({ children }) {
           <IconButton className={classes.icon}>
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.date} >
+          <Typography className={classes.date}>
             Today is {format(new Date(), "do MMM Y")}
           </Typography>
-          <Typography className={classes.logout} component={Link} to="/login">
-            Log Out
-          </Typography>
-          <Avatar src="/logo512.png" className={classes.avatar} />
+
+          <Typography className={classes.logout}>{name}</Typography>
+
         </ToolBar>
       </AppBar>
 
@@ -154,7 +200,7 @@ export default function Layout({ children }) {
           classes={{ paper: classes.drawerPaper }}
         >
           <div>
-            <Typography variant="h5" className={classes.title} >
+            <Typography variant="h5" className={classes.title}>
               Med Logbook
             </Typography>
           </div>

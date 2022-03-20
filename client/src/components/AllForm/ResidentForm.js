@@ -65,6 +65,7 @@ export default function ResidentForm({ editItem }) {
     const result = await axios.put(
       `http://localhost:3001/resident/${editItem.dataID}`,
       {
+        userID: localStorage.getItem('userID'),
         subject: subject,
       }
     );

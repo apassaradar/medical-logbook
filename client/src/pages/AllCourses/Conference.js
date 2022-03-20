@@ -87,7 +87,7 @@ export default function Conference() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/conference");
+    const result = await axios.get("http://localhost:3001/conference", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -98,6 +98,8 @@ export default function Conference() {
  
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/conference", {
+      
+      userID: localStorage.getItem('userID'),
       con_name: con_name,
       unit: unit,
     });

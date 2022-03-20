@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Fingerprint from "@material-ui/icons/Fingerprint";
 import Avatar from "@material-ui/core/Avatar";
-import WorkIcon from "@material-ui/icons/Work";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import { FaHospitalUser, FaAmbulance, FaHeartbeat } from "react-icons/fa";
+import { FaUserInjured, FaBandAid } from "react-icons/fa";
+import { GiPersonInBed } from "react-icons/gi";
+import {
+  MdVolunteerActivism,
+  MdAirlineSeatIndividualSuite,
+} from "react-icons/md";
+import { RiUserSearchFill } from "react-icons/ri";
+import EventSeatIcon from "@material-ui/icons/EventSeat";
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -37,10 +45,14 @@ const useStyles = makeStyles((theme) => ({
     height: 105,
   },
   avatar: {
-    backgroundColor: "#d16060",
-    color: "#ffffff",
+    backgroundColor: "#EFE3E2",
     width: 100,
     height: 100,
+  },
+  icon: {
+    color: "#F2685D",
+    width: 60,
+    height: 60,
   },
 }));
 
@@ -49,11 +61,7 @@ export default function Courses() {
 
   return (
     <Container>
-
-      <Typography
-        variant="h4"
-        gutterBottom
-      >
+      <Typography variant="h4" gutterBottom>
         วิชาเรียนทั้งหมด
       </Typography>
 
@@ -63,9 +71,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  {/* <IconButton>
-                    <Fingerprint />
-                  </IconButton> */}
+                  <Avatar className={classes.avatar}>
+                    <PersonAddIcon className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -94,7 +102,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  {/* <Avatar className={classes.avatar}></Avatar> */}
+                  <Avatar className={classes.avatar}>
+                    <FaHospitalUser className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -123,7 +133,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  {/* <Avatar className={classes.avatar}></Avatar> */}
+                  <Avatar className={classes.avatar}>
+                    <EventSeatIcon className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -152,7 +164,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  {/* <Avatar className={classes.avatar}></Avatar> */}
+                  <Avatar className={classes.avatar}>
+                    <FaAmbulance className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -181,7 +195,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <RiUserSearchFill className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -210,7 +226,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <MdVolunteerActivism className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -239,7 +257,10 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <RiUserSearchFill className={classes.icon} />
+                    <MdVolunteerActivism className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -268,7 +289,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <FaUserInjured className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -297,7 +320,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <FaBandAid className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -326,7 +351,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <MdAirlineSeatIndividualSuite className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -355,7 +382,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <FaHeartbeat className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">
@@ -384,7 +413,9 @@ export default function Courses() {
             <Card>
               <CardActionArea>
                 <CardMedia className={classes.media}>
-                  <Avatar className={classes.avatar}></Avatar>
+                  <Avatar className={classes.avatar}>
+                    <AssignmentIndIcon className={classes.icon} />
+                  </Avatar>
                 </CardMedia>
                 <CardContent className={classes.content}>
                   <Typography gutterBottom variant="h6" component="div">

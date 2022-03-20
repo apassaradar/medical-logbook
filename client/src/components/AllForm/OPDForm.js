@@ -69,6 +69,7 @@ export default function OPD({editItem}) {
   const updateData = async () => {
     const result = await axios.put(`http://localhost:3001/opd/${editItem.dataID}`, {
       
+      userID: localStorage.getItem('userID'),
       unit: unit
     });
     window.location.reload();

@@ -14,7 +14,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Popup from "../../components/Popup";
-import GradingPatientsForm from "../../components/AllGradingForm/GradingPatientsForm"
+import GradingPatientsForm from "../../components/AllGradingForm/GradingPatientsForm";
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
   chipsuccess: {
     backgroundColor: "#85E36B",
-    color: '#ffffff'
+    color: "#ffffff",
   },
   chippending: {
     backgroundColor: "#f2ed49",
-    color: '#ffffff'
-  }
+    color: "#ffffff",
+  },
 }));
 
 export default function GradingPatients() {
@@ -86,25 +86,22 @@ export default function GradingPatients() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/patients");
+    const result = await axios.get("http://localhost:3001/gradingpatients");
 
-    const raw = result.data.reverse()
-    setDataPending(raw.filter(x => x.status == 0));
-    setDataSuccess(raw.filter(x => x.status == 1));
+    const raw = result.data.reverse();
+    setDataPending(raw.filter((x) => x.status == 0));
+    setDataSuccess(raw.filter((x) => x.status == 1));
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-
-
   const editData = (item) => {
-    setOpenPopup(true)
-    setEditItem(item)
+    setOpenPopup(true);
+    setEditItem(item);
     // console.log(item)
-  }
-  
+  };
 
   return (
     <Container size="sm">
@@ -121,10 +118,19 @@ export default function GradingPatients() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <GradingPatientsForm editItem={editItem}/>
+        <GradingPatientsForm editItem={editItem} />
       </Popup>
-      
-    
+     
+      <br />
+      <br />
+      <Typography
+        variant="h6"
+        color="textSecondary"
+        component="h2"
+        gutterBottom
+      >
+        ข้อมูลที่ยังไม่ได้รับการตรวจ
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -171,8 +177,11 @@ export default function GradingPatients() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
-                  
+                  {res.status == 1 ? (
+                    <Chip label="success" className={classes.chipsuccess} />
+                  ) : (
+                    <Chip label="pending" className={classes.chippending} />
+                  )}
                 </TableCell>
                 <TableCell align="left">
                   <Button
@@ -180,25 +189,26 @@ export default function GradingPatients() {
                     type="button"
                     variant="contained"
                     endIcon={<EditIcon />}
-                    onClick={() => editData(res) }
+                    onClick={() => editData(res)}
                   >
                     CHECK
                   </Button>
-                  
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-
+      <br />
+      <br />
+      <br />
       <Typography
-        variant="h5"
+        variant="h6"
         color="textSecondary"
         component="h2"
         gutterBottom
       >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
+        ข้อมูลที่ได้รับการตรวจแล้ว
       </Typography>
 
       <TableContainer component={Paper}>
@@ -246,8 +256,11 @@ export default function GradingPatients() {
                   </SimpleDateTime>
                 </TableCell>
                 <TableCell align="left">
-                  {res.status == 1 ? <Chip label="success" className={classes.chipsuccess} /> : <Chip label="pending" className={classes.chippending} />}
-                  
+                  {res.status == 1 ? (
+                    <Chip label="success" className={classes.chipsuccess} />
+                  ) : (
+                    <Chip label="pending" className={classes.chippending} />
+                  )}
                 </TableCell>
               </TableRow>
             ))}

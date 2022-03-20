@@ -71,10 +71,8 @@ export default function GradingConferenceForm({editItem}) {
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/conference/${editItem.dataID}`, {
-  
-      con_name: con_name,
-      unit: unit
+    const result = await axios.put(`http://localhost:3001/gradingconference/${editItem.dataID}`, {
+      status: 1
     });
     window.location.reload();
   };
@@ -112,7 +110,7 @@ export default function GradingConferenceForm({editItem}) {
           variant="outlined"
           color="secondary"
           fullWidth
-          required
+          disabled
           error={conNameError}
           value={con_name}
         />
@@ -127,7 +125,7 @@ export default function GradingConferenceForm({editItem}) {
                 id="unit-select"
                 displayEmpty
                 value={unit}
-                required
+                disabled
                 error={unitError}
                 onChange={handleChangeUnit}
               >

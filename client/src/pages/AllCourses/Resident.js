@@ -80,7 +80,7 @@ export default function Resident() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/resident");
+    const result = await axios.get("http://localhost:3001/resident", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -92,6 +92,7 @@ export default function Resident() {
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/resident", {
       
+      userID: localStorage.getItem('userID'),
       subject: subject
 
     });
@@ -142,8 +143,7 @@ export default function Resident() {
       </Popup>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-    
-      <TextField
+        <TextField
           className={classes.field}
           onChange={(e) => setSubject(e.target.value)}
           label="เรื่องที่สอน"
@@ -155,7 +155,6 @@ export default function Resident() {
           required
           error={subjectError}
         />
-
 
         <Button className={classes.submitbtn}
           type="submit"

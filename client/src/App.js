@@ -32,6 +32,10 @@ import GradingCVP from "./pages/AllGrading/GradingCVP";
 import GradingResident from "./pages/AllGrading/GradingResident";
 import Manage from "./pages/Manage";
 
+import { AuthContext } from "./helpers/AuthContext";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -49,104 +53,137 @@ const theme = createTheme({
 });
 
 function App() {
+  const [authState, setAuthState] = useState({
+    email: "",
+    id: 0,
+    status: false,
+  });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/auth/auth", {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          setAuthState({ ...authState, status: false });
+        } else {
+          setAuthState({
+            email: response.data.email,
+            id: response.data.id,
+            status: true,
+          });
+        }
+      });
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setAuthState({ email: "", id: 0, status: false });
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <Switch>
-          <Route path="/login">
-            <LogIn />
-          </Route>
-          <Layout>
-            <Route exact path="/">
-              <Overview />
+      <AuthContext.Provider value={{ authState, setAuthState }}>
+        <Router>
+          <Switch>
+            <Route path="/login">
+              <LogIn />
             </Route>
-            <Route exact path="/courses">
-              <Courses />
-            </Route>
-            <Route path="/patients">
-              <Patients />
-            </Route>
-            <Route path="/opd">
-              <OPD />
-            </Route>
-            <Route path="/conference">
-              <Conference />
-            </Route>
-            <Route path="/emergency">
-              <Emergency />
-            </Route>
-            <Route path="/helpmajor">
-              <HelpMajor />
-            </Route>
-            <Route path="/observemajor">
-              <ObserveMajor />
-            </Route>
-            <Route path="/helpobserveminor">
-              <HelpObserveMinor />
-            </Route>
-            <Route path="/firstaid">
-              <FirstAid />
-            </Route>
-            <Route path="/stitches">
-              <Stitches />
-            </Route>
-            <Route path="/foleycath">
-              <FoleyCath />
-            </Route>
-            <Route path="/cvp">
-              <CVP />
-            </Route>
-            <Route path="/resident">
-              <Resident />
-            </Route>
-            <Route path="/form">
-              <Form />
-            </Route>
-            <Route path="/grading">
-              <Grading />
-            </Route>
-            <Route path="/gradingpatients">
-              <GradingPatients />
-            </Route>
-            <Route path="/gradingopd">
-              <GradingOPD />
-            </Route>
-            <Route path="/gradingconference">
-              <GradingConference />
-            </Route>
-            <Route path="/gradingemergency">
-              <GradingEmergency />
-            </Route>
-            <Route path="/gradingobservemajor">
-              <GradingObserveMajor />
-            </Route>
-            <Route path="/gradinghelpmajor">
-              <GradingHelpMajor />
-            </Route>
-            <Route path="/gradinghelpobserveminor">
-              <GradingHelpObserveMinor />
-            </Route>
-            <Route path="/gradingfirstaid">
-              <GradingFirstAid />
-            </Route>
-            <Route path="/gradingstitches">
-              <GradingStitches />
-            </Route>
-            <Route path="/gradingfoleycath">
-              <GradingFoleyCath />
-            </Route>
-            <Route path="/gradingcvp">
-              <GradingCVP />
-            </Route>
-            <Route path="/gradingresident">
-              <GradingResident />
-            </Route>
-            <Route path="/manage">
-              <Manage />
-            </Route>
-          </Layout>
-        </Switch>
-      </Router>
+            <Layout>
+              <Route exact path="/">
+                <Overview />
+              </Route>
+              <Route exact path="/courses">
+                <Courses />
+              </Route>
+              <Route path="/patients">
+                <Patients />
+              </Route>
+              <Route path="/opd">
+                <OPD />
+              </Route>
+              <Route path="/conference">
+                <Conference />
+              </Route>
+              <Route path="/emergency">
+                <Emergency />
+              </Route>
+              <Route path="/helpmajor">
+                <HelpMajor />
+              </Route>
+              <Route path="/observemajor">
+                <ObserveMajor />
+              </Route>
+              <Route path="/helpobserveminor">
+                <HelpObserveMinor />
+              </Route>
+              <Route path="/firstaid">
+                <FirstAid />
+              </Route>
+              <Route path="/stitches">
+                <Stitches />
+              </Route>
+              <Route path="/foleycath">
+                <FoleyCath />
+              </Route>
+              <Route path="/cvp">
+                <CVP />
+              </Route>
+              <Route path="/resident">
+                <Resident />
+              </Route>
+              <Route path="/form">
+                <Form />
+              </Route>
+              <Route path="/grading">
+                <Grading />
+              </Route>
+              <Route path="/gradingpatients">
+                <GradingPatients />
+              </Route>
+              <Route path="/gradingopd">
+                <GradingOPD />
+              </Route>
+              <Route path="/gradingconference">
+                <GradingConference />
+              </Route>
+              <Route path="/gradingemergency">
+                <GradingEmergency />
+              </Route>
+              <Route path="/gradingobservemajor">
+                <GradingObserveMajor />
+              </Route>
+              <Route path="/gradinghelpmajor">
+                <GradingHelpMajor />
+              </Route>
+              <Route path="/gradinghelpobserveminor">
+                <GradingHelpObserveMinor />
+              </Route>
+              <Route path="/gradingfirstaid">
+                <GradingFirstAid />
+              </Route>
+              <Route path="/gradingstitches">
+                <GradingStitches />
+              </Route>
+              <Route path="/gradingfoleycath">
+                <GradingFoleyCath />
+              </Route>
+              <Route path="/gradingcvp">
+                <GradingCVP />
+              </Route>
+              <Route path="/gradingresident">
+                <GradingResident />
+              </Route>
+              <Route path="/manage">
+                <Manage />
+              </Route>
+            </Layout>
+          </Switch>
+        </Router>
+      </AuthContext.Provider>
     </ThemeProvider>
   );
 }

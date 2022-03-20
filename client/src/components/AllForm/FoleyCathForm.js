@@ -22,17 +22,31 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: "#00695c",
-    color: "#ffffff",
+    backgroundColor: '#fefefe',
+    color: '#00695c',
+    "&:hover": {
+      backgroundColor: "#00695c",
+      color: '#ffffff'
+    }
   },
   editbtn: {
-    backgroundColor: "#548acc",
-    color: "#ffffff",
+    backgroundColor: '#ffffff',
+    color: '#548acc',
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#548acc",
+      color: '#ffffff'
+    }
   },
   delbtn: {
-    backgroundColor: "#d16060",
-    color: "#ffffff",
-  },
+    backgroundColor: '#ffffff',
+    color: '#d16060',
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#d16060",
+      color: '#ffffff'
+    }
+  }
 }));
 
 export default function FoleyCathForm({editItem}) {
@@ -64,6 +78,8 @@ export default function FoleyCathForm({editItem}) {
 
   const updateData = async () => {
     const result = await axios.put(`http://localhost:3001/foleycath/${editItem.dataID}`, {
+      
+      userID: localStorage.getItem('userID'),
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
@@ -112,14 +128,6 @@ export default function FoleyCathForm({editItem}) {
 
   return (
     <Container size="sm">
-      {/* <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        รายชื่อผู้ป่วยที่ได้รับไว้ในความดูแล
-      </Typography> */}
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField

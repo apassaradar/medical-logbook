@@ -85,7 +85,7 @@ export default function Emergency() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/emergency");
+    const result = await axios.get("http://localhost:3001/emergency", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -97,6 +97,7 @@ export default function Emergency() {
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/emergency", {
       
+      userID: localStorage.getItem('userID'),
       experience: experience
 
     });

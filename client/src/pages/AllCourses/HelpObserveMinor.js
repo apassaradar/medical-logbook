@@ -93,7 +93,7 @@ export default function HelpObserveMinor() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/helpobserveminor");
+    const result = await axios.get("http://localhost:3001/helpobserveminor", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -104,6 +104,8 @@ export default function HelpObserveMinor() {
  
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/helpobserveminor", {
+      
+      userID: localStorage.getItem('userID'),
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,

@@ -68,10 +68,9 @@ export default function GradingOPDForm({ editItem }) {
 
   const updateData = async () => {
     const result = await axios.put(
-      `http://localhost:3001/opd/${editItem.dataID}`,
+      `http://localhost:3001/gradingopd/${editItem.dataID}`,
       {
-        
-        unit: unit
+        status: 1
       }
     );
     window.location.reload();
@@ -104,7 +103,7 @@ export default function GradingOPDForm({ editItem }) {
                 id="unit-select"
                 displayEmpty
                 value={unit}
-                required
+                disabled
                 error={unitError}
                 onChange={handleChangeUnit}
               >

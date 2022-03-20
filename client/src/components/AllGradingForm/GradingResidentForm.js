@@ -37,15 +37,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#548acc",
       color: '#ffffff'
     }
-  },
-  delbtn: {
-    backgroundColor: '#ffffff',
-    color: '#d16060',
-    marginRight: 10,
-    "&:hover": {
-      backgroundColor: "#d16060",
-      color: '#ffffff'
-    }
   }
 }));
 
@@ -67,10 +58,8 @@ export default function GradingResidentForm({editItem}) {
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/resident/${editItem.dataID}`, {
-      
-      subject: subject
-      
+    const result = await axios.put(`http://localhost:3001/gradingresident/${editItem.dataID}`, {
+      status: 1
     });
     window.location.reload();
   };
@@ -101,7 +90,7 @@ export default function GradingResidentForm({editItem}) {
           multiline
           rows={4}
           fullWidth
-          required
+          disabled
           error={subjectError}
           value={subject}
         />

@@ -22,17 +22,22 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
   },
   submitbtn: {
-    backgroundColor: "#00695c",
-    color: "#ffffff",
+    backgroundColor: "#fefefe",
+    color: "#00695c",
+    "&:hover": {
+      backgroundColor: "#00695c",
+      color: "#ffffff",
+    },
   },
   editbtn: {
-    backgroundColor: "#548acc",
-    color: "#ffffff",
+    backgroundColor: "#ffffff",
+    color: "#548acc",
+    marginRight: 10,
+    "&:hover": {
+      backgroundColor: "#548acc",
+      color: "#ffffff",
+    },
   },
-  delbtn: {
-    backgroundColor: "#d16060",
-    color: "#ffffff",
-  }
 }));
 
 export default function GradingPatientsForm({editItem}) {

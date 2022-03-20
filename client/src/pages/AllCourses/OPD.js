@@ -85,7 +85,7 @@ export default function OPD() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/opd");
+    const result = await axios.get("http://localhost:3001/opd", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -96,6 +96,8 @@ export default function OPD() {
  
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/opd", {
+      
+      userID: localStorage.getItem('userID'),
       unit: unit,
     });
     window.location.reload();

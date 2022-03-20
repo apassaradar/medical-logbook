@@ -93,7 +93,7 @@ export default function CVP() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/cvp");
+    const result = await axios.get("http://localhost:3001/cvp", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
   };
 
@@ -104,6 +104,8 @@ export default function CVP() {
  
   const addData = async () => {
     const result = await axios.post("http://localhost:3001/cvp", {
+      
+      userID: localStorage.getItem('userID'),
       hn: hn,
       patient_name: patient_name,
       diagnosis: diagnosis,
