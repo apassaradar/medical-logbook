@@ -20,6 +20,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'cvp',
-  });
+  },{timestamps: false});
   return cvp;
 };
