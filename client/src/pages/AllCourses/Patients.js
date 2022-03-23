@@ -92,6 +92,14 @@ export default function Patients() {
 
   const [editItem, setEditItem] = useState({});
 
+  function shortenText(text) {
+    if (text.length >= 8) {
+      return text.slice(0, 8) + "..."
+    }
+
+    return text;
+  } 
+
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/patients", {params: {userID: localStorage.getItem('userID')}});
     setData(result.data.reverse());
@@ -302,7 +310,7 @@ export default function Patients() {
                 <TableCell component="th" scope="row">
                   {res.hn}
                 </TableCell>
-                <TableCell align="left">{res.patient_name}</TableCell>
+                <TableCell align="left">{shortenText(res.patient_name)}</TableCell>
                 <TableCell align="right">{res.wardName}</TableCell>
                 <TableCell align="right">{res.unitName}</TableCell>
                 <TableCell align="left">
@@ -339,15 +347,7 @@ export default function Patients() {
                   >
                     Edit
                   </Button>
-                  <Button
-                    className={classes.delbtn}
-                    type="button"
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    onClick={() => deleteData(res.dataID)}
-                  >
-                    Delete
-                  </Button>
+
                 </TableCell>
               </TableRow>
             ))}

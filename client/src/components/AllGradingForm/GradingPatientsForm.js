@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GradingPatientsForm({editItem}) {
+export default function GradingPatientsForm({ editItem, hideButton = false }) {
   const classes = useStyles();
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -60,22 +60,24 @@ export default function GradingPatientsForm({editItem}) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setHN(editItem.hn)
-    setPatientName(editItem.patient_name)
-    setDiagnosis(editItem.diagnosis)
-    setWard(editItem.wardID)
-    setUnit(editItem.unitID)
-    setStatus(editItem.status)
-    console.log(editItem)
+    setHN(editItem.hn);
+    setPatientName(editItem.patient_name);
+    setDiagnosis(editItem.diagnosis);
+    setWard(editItem.wardID);
+    setUnit(editItem.unitID);
+    setStatus(editItem.status);
+    console.log(editItem);
   }, [editItem]);
 
   const updateData = async () => {
-    const result = await axios.put(`http://localhost:3001/gradingpatients/${editItem.dataID}`, {
-      status: 1
-    });
+    const result = await axios.put(
+      `http://localhost:3001/gradingpatients/${editItem.dataID}`,
+      {
+        status: 1,
+      }
+    );
     window.location.reload();
   };
-
 
   const handleChangeWard = (e) => {
     setWard(e.target.value);
@@ -115,9 +117,8 @@ export default function GradingPatientsForm({editItem}) {
 
   return (
     <Container size="sm">
-      
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
+        {/* <TextField
           className={classes.field}
           onChange={(e) => setHN(e.target.value)}
           label="H.N."
@@ -127,8 +128,8 @@ export default function GradingPatientsForm({editItem}) {
           disabled
           error={hnError}
           value={hn}
-        />
-        <TextField
+        /> */}
+        {hn}<TextField
           className={classes.field}
           onChange={(e) => setPatientName(e.target.value)}
           label="Patient Name"
@@ -197,16 +198,18 @@ export default function GradingPatientsForm({editItem}) {
           </Grid>
         </Grid>
 
-        <Button
-          className={classes.submitbtn}
-          type="submit"
-          color="success"
-          variant="contained"
-          endIcon={<CheckIcon />}
-          onClick={updateData}
-        >
-          Approve
-        </Button>
+        {!editItem.status == 1 && (
+          <Button
+            className={classes.submitbtn}
+            type="submit"
+            color="success"
+            variant="contained"
+            endIcon={<CheckIcon />}
+            onClick={updateData}
+          >
+            Approve
+          </Button>
+        )}
       </form>
     </Container>
   );

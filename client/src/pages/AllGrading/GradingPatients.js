@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import EditIcon from "@material-ui/icons/Edit";
+import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 import { makeStyles } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -86,7 +87,9 @@ export default function GradingPatients() {
   const [editItem, setEditItem] = useState({});
 
   const getData = async () => {
-    const result = await axios.get("http://localhost:3001/gradingpatients");
+    const result = await axios.get("http://localhost:3001/groups/list-student-by-user", {
+      params: {userId: localStorage.getItem('userID')}
+    });
 
     const raw = result.data.reverse();
     setDataPending(raw.filter((x) => x.status == 0));
@@ -118,7 +121,7 @@ export default function GradingPatients() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <GradingPatientsForm editItem={editItem} />
+        <GradingPatientsForm hideButton editItem={editItem} />
       </Popup>
      
       <br />
@@ -222,6 +225,7 @@ export default function GradingPatients() {
               <TableCell align="left">Created At</TableCell>
               <TableCell align="left">Updated At</TableCell>
               <TableCell align="left">Status</TableCell>
+              <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -261,6 +265,18 @@ export default function GradingPatients() {
                   ) : (
                     <Chip label="pending" className={classes.chippending} />
                   )}
+                </TableCell>
+                <TableCell align="left">
+                  <Button
+                    className={classes.editbtn}
+                    type="button"
+                    variant="contained"
+                    endIcon={<RemoveRedEyeIcon />}
+                    onClick={() => editData(res)}
+                    
+                  >
+                    VIEW
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

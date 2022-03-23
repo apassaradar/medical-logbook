@@ -13,13 +13,16 @@ const db = mysql.createConnection({
   host: "localhost",
   password: "",
   // database: "medical-logbook",
-   database: "medical-logbook",
+   database: "meddemo",
 });
 
 
 const usersRouter = require("./routes/Users");
 app.use("/auth", usersRouter);
-
+const patientsRouter = require("./routes/Patients");
+app.use(patientsRouter);
+const groupRouter = require("./routes/Group");
+app.use('/groups',groupRouter);
 
 app.get("/users", (req, res) => {
   db.query(
@@ -76,7 +79,7 @@ app.get("/patients", (req, res) => {
 
 
   db.query(
-    "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID WHERE patients.userID = ?", [userID],
+    "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, patients.createdAt, patients.updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID WHERE patients.userID = ?", [userID],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -95,10 +98,11 @@ app.post("/patients", (req, res) => {
   const diagnosis = req.body.diagnosis;
   const ward = req.body.ward;
   const unit = req.body.unit;
+  const date = new Date();
 
   db.query(
-    "INSERT INTO patients (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,1,?,0)",
-    [hn, patient_name, diagnosis, ward, unit, userID],
+    "INSERT INTO patients (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, createdAt, updatedAt, status) VALUES (?,?,?,?,?,1,?,?,?,0)",
+    [hn, patient_name, diagnosis, ward, unit, userID, date, date],
     (err, result) => {
       if (err) {
         console.log(err);
