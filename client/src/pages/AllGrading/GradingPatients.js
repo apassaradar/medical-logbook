@@ -89,8 +89,8 @@ export default function GradingPatients() {
   const getData = async () => {
     const result = await axios.get("http://localhost:3001/groups/list-student-by-user", {
       params: {userId: localStorage.getItem('userID')}
-    });
-
+    })
+;
     const raw = result.data.reverse();
     setDataPending(raw.filter((x) => x.status == 0));
     setDataSuccess(raw.filter((x) => x.status == 1));

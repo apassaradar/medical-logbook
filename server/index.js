@@ -19,10 +19,23 @@ const db = mysql.createConnection({
 
 const usersRouter = require("./routes/Users");
 app.use("/auth", usersRouter);
-const patientsRouter = require("./routes/Patients");
-app.use(patientsRouter);
 const groupRouter = require("./routes/Group");
 app.use('/groups',groupRouter);
+const patientsRouter = require("./routes/Patients");
+app.use(patientsRouter);
+const opdRouter = require("./routes/OPD");
+app.use(opdRouter);
+const conferenceRouter = require("./routes/Conference");
+app.use(conferenceRouter);
+const emergencyRouter = require("./routes/Emergency");
+app.use(emergencyRouter);
+const observemajorRouter = require("./routes/ObserveMajor");
+app.use(observemajorRouter);
+const helpmajorRouter = require("./routes/HelpMajor");
+app.use(helpmajorRouter);
+const helpobserveminorRouter = require("./routes/HelpObserveMinor");
+app.use(helpobserveminorRouter);
+
 
 app.get("/users", (req, res) => {
   db.query(
@@ -72,763 +85,763 @@ app.delete("/users/:id", (req, res) => {
 
 
 
-app.get("/patients", (req, res) => {
+// app.get("/patients", (req, res) => {
 
 
-  const userID = req.query.userID;
+//   const userID = req.query.userID;
 
 
-  db.query(
-    "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, patients.createdAt, patients.updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID WHERE patients.userID = ?", [userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, patients.createdAt, patients.updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID WHERE patients.userID = ?", [userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.post("/patients", (req, res) => {
+// app.post("/patients", (req, res) => {
 
-  const userID = req.body.userID;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
-  const date = new Date();
+//   const userID = req.body.userID;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
+//   const date = new Date();
 
-  db.query(
-    "INSERT INTO patients (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, createdAt, updatedAt, status) VALUES (?,?,?,?,?,1,?,?,?,0)",
-    [hn, patient_name, diagnosis, ward, unit, userID, date, date],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "INSERT INTO patients (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, createdAt, updatedAt, status) VALUES (?,?,?,?,?,1,?,?,?,0)",
+//     [hn, patient_name, diagnosis, ward, unit, userID, date, date],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.delete("/patients/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
+// app.delete("/patients/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
 
-  db.query("DELETE FROM patients WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+//   db.query("DELETE FROM patients WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.put("/patients/:id", (req, res) => {
+// app.put("/patients/:id", (req, res) => {
 
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
 
-  const date = new Date();
+//   const date = new Date();
 
-  db.query(
-    "UPDATE patients SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=1, userID=?, updatedAt = ? WHERE dataID = ?",
-    [hn, patient_name, diagnosis, ward, unit, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE patients SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=1, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [hn, patient_name, diagnosis, ward, unit, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.get("/gradingpatients", (req, res) => {
+// app.get("/gradingpatients", (req, res) => {
 
 
-  db.query(
-    "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID ",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, patients.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM patients left join users on users.userID = patients.userID left join ward on ward.id = patients.wardID left join unit on unit.id = patients.unitID ",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.put("/gradingpatients/:id", (req, res) => {
+// app.put("/gradingpatients/:id", (req, res) => {
 
-  const id = req.params.id;
+//   const id = req.params.id;
   
-  const status = req.body.status;
+//   const status = req.body.status;
 
-  db.query(
-    "UPDATE patients SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE patients SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
 
-app.get("/opd", (req, res) => {
+// app.get("/opd", (req, res) => {
 
-  const userID = req.query.userID;
+//   const userID = req.query.userID;
 
-  db.query(
-    "SELECT dataID, opd.userID, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM opd left join users on users.userID = opd.userID left join unit on unit.id = opd.unitID WHERE opd.userID = ?", [userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, opd.userID, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM opd left join users on users.userID = opd.userID left join unit on unit.id = opd.unitID WHERE opd.userID = ?", [userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.post("/opd", (req, res) => {
+// app.post("/opd", (req, res) => {
   
-  const userID = req.body.userID;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const unit = req.body.unit;
 
-  db.query(
-    "INSERT INTO opd (unitID, courseID, userID, status) VALUES (?,2,?,0)",
-    [unit],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "INSERT INTO opd (unitID, courseID, userID, status) VALUES (?,2,?,0)",
+//     [unit],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.delete("/opd/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
+// app.delete("/opd/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
 
-  db.query("DELETE FROM opd WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+//   db.query("DELETE FROM opd WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.put("/opd/:id", (req, res) => {
+// app.put("/opd/:id", (req, res) => {
 
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const unit = req.body.unit;
 
-  const date = new Date();
+//   const date = new Date();
 
-  db.query(
-    "UPDATE opd SET unitID=?, courseID=2, userID=?, updatedAt = ? WHERE dataID = ?",
-    [unit, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE opd SET unitID=?, courseID=2, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [unit, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.get("/gradingopd", (req, res) => {
+// app.get("/gradingopd", (req, res) => {
 
-  db.query(
-    "SELECT dataID, opd.userID, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM opd left join users on users.userID = opd.userID left join unit on unit.id = opd.unitID",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, opd.userID, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM opd left join users on users.userID = opd.userID left join unit on unit.id = opd.unitID",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.put("/gradingopd/:id", (req, res) => {
+// app.put("/gradingopd/:id", (req, res) => {
 
-  const id = req.params.id;
+//   const id = req.params.id;
 
-  const status = req.body.status;
+//   const status = req.body.status;
 
-  db.query(
-    "UPDATE opd SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE opd SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
 
-app.get("/conference", (req, res) => {
+// app.get("/conference", (req, res) => {
 
-  const userID = req.query.userID;
+//   const userID = req.query.userID;
 
-  db.query(
-    "SELECT dataID, conference.userID, con_name, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM conference left join users on users.userID = conference.userID left join unit on unit.id = conference.unitID WHERE conference.userID = ?",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, conference.userID, con_name, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM conference left join users on users.userID = conference.userID left join unit on unit.id = conference.unitID WHERE conference.userID = ?",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.post("/conference", (req, res) => {
+// app.post("/conference", (req, res) => {
   
-  const userID = req.body.userID;
-  const con_name = req.body.con_name;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const con_name = req.body.con_name;
+//   const unit = req.body.unit;
 
-  db.query(
-    "INSERT INTO conference (con_name, unitID, courseID, userID, status) VALUES (?,?,3,?,0)",
-    [con_name, unit],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "INSERT INTO conference (con_name, unitID, courseID, userID, status) VALUES (?,?,3,?,0)",
+//     [con_name, unit],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.delete("/conference/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
+// app.delete("/conference/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
 
-  db.query("DELETE FROM conference WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+//   db.query("DELETE FROM conference WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.put("/conference/:id", (req, res) => {
+// app.put("/conference/:id", (req, res) => {
 
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const con_name = req.body.con_name;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const con_name = req.body.con_name;
+//   const unit = req.body.unit;
 
-  const date = new Date();
+//   const date = new Date();
 
-  db.query(
-    "UPDATE conference SET con_name=?, unitID=?, courseID=3, userID=?, updatedAt = ? WHERE dataID = ?",
-    [con_name, unit, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE conference SET con_name=?, unitID=?, courseID=3, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [con_name, unit, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.get("/gradingconference", (req, res) => {
+// app.get("/gradingconference", (req, res) => {
 
-  db.query(
-    "SELECT dataID, conference.userID, con_name, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM conference left join users on users.userID = conference.userID left join unit on unit.id = conference.unitID",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, conference.userID, con_name, unitID, users.fname userName, unit.name unitName, createdAt, updatedAt, status FROM conference left join users on users.userID = conference.userID left join unit on unit.id = conference.unitID",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.put("/gradingconference/:id", (req, res) => {
+// app.put("/gradingconference/:id", (req, res) => {
 
-  const id = req.params.id;
+//   const id = req.params.id;
 
-  const status = req.body.status;
+//   const status = req.body.status;
 
-  db.query(
-    "UPDATE conference SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE conference SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
 
-app.get("/emergency", (req, res) => {
+// app.get("/emergency", (req, res) => {
 
-  const userID = req.query.userID;
+//   const userID = req.query.userID;
 
-  db.query(
-    "SELECT dataID, emergency.userID, experience, users.fname userName, createdAt, updatedAt, status FROM emergency left join users on users.userID = emergency.userID WHERE emergency.userID = ?", [userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, emergency.userID, experience, users.fname userName, createdAt, updatedAt, status FROM emergency left join users on users.userID = emergency.userID WHERE emergency.userID = ?", [userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.post("/emergency", (req, res) => {
+// app.post("/emergency", (req, res) => {
   
 
-  const userID = req.body.userID;
-  const experience = req.body.experience;
+//   const userID = req.body.userID;
+//   const experience = req.body.experience;
 
-  db.query(
-    "INSERT INTO emergency (experience, courseID, userID, status) VALUES (?,4,?,0)",
-    [experience],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "INSERT INTO emergency (experience, courseID, userID, status) VALUES (?,4,?,0)",
+//     [experience],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.delete("/emergency/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
+// app.delete("/emergency/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
 
-  db.query("DELETE FROM emergency WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+//   db.query("DELETE FROM emergency WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.put("/emergency/:id", (req, res) => {
+// app.put("/emergency/:id", (req, res) => {
 
   
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const experience = req.body.experience;
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const experience = req.body.experience;
 
-  const date = new Date();
+//   const date = new Date();
 
-  db.query(
-    "UPDATE emergency SET experience=?, courseID=4, userID=?, updatedAt = ? WHERE dataID = ?",
-    [experience, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE emergency SET experience=?, courseID=4, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [experience, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.get("/gradingemergency", (req, res) => {
-
-
-  db.query(
-    "SELECT dataID, emergency.userID, experience, users.fname userName, createdAt, updatedAt, status FROM emergency left join users on users.userID = emergency.userID",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
-
-app.put("/gradingemergency/:id", (req, res) => {
-
-  const id = req.params.id;
-
-  const status = req.body.status;
+// app.get("/gradingemergency", (req, res) => {
 
 
-  db.query(
-    "UPDATE emergency SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, emergency.userID, experience, users.fname userName, createdAt, updatedAt, status FROM emergency left join users on users.userID = emergency.userID",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.get("/observemajor", (req, res) => {
+// app.put("/gradingemergency/:id", (req, res) => {
 
-  const userID = req.query.userID;
+//   const id = req.params.id;
 
-  db.query(
-    "SELECT dataID, observemajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM observemajor left join users on users.userID = observemajor.userID left join ward on ward.id = observemajor.wardID left join unit on unit.id = observemajor.unitID WHERE observemajor.userID = ?", [userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
-
-app.post("/observemajor", (req, res) => {
-
-  const userID = req.body.userID;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
-
-  db.query(
-    "INSERT INTO observemajor (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,5,?,0)",
-    [hn, patient_name, diagnosis, ward, unit, userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
-
-app.delete("/observemajor/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-
-  db.query("DELETE FROM observemajor WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
-
-app.put("/observemajor/:id", (req, res) => {
-
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
-
-  const date = new Date();
-
-  db.query(
-    "UPDATE observemajor SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=5, userID=?, updatedAt = ? WHERE dataID = ?",
-    [hn, patient_name, diagnosis, ward, unit, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
-
-app.get("/gradingobservemajor", (req, res) => {
+//   const status = req.body.status;
 
 
-  db.query(
-    "SELECT dataID, observemajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM observemajor left join users on users.userID = observemajor.userID left join ward on ward.id = observemajor.wardID left join unit on unit.id = observemajor.unitID ",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE emergency SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.put("/observemajor/:id", (req, res) => {
+// app.get("/observemajor", (req, res) => {
 
-  const id = req.params.id;
+//   const userID = req.query.userID;
+
+//   db.query(
+//     "SELECT dataID, observemajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM observemajor left join users on users.userID = observemajor.userID left join ward on ward.id = observemajor.wardID left join unit on unit.id = observemajor.unitID WHERE observemajor.userID = ?", [userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
+
+// app.post("/observemajor", (req, res) => {
+
+//   const userID = req.body.userID;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
+
+//   db.query(
+//     "INSERT INTO observemajor (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,5,?,0)",
+//     [hn, patient_name, diagnosis, ward, unit, userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
+
+// app.delete("/observemajor/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
+
+//   db.query("DELETE FROM observemajor WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
+
+// app.put("/observemajor/:id", (req, res) => {
+
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
+
+//   const date = new Date();
+
+//   db.query(
+//     "UPDATE observemajor SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=5, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [hn, patient_name, diagnosis, ward, unit, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
+
+// app.get("/gradingobservemajor", (req, res) => {
+
+
+//   db.query(
+//     "SELECT dataID, observemajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM observemajor left join users on users.userID = observemajor.userID left join ward on ward.id = observemajor.wardID left join unit on unit.id = observemajor.unitID ",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
+
+// app.put("/observemajor/:id", (req, res) => {
+
+//   const id = req.params.id;
   
-  const status = req.body.status;
+//   const status = req.body.status;
 
-  db.query(
-    "UPDATE observemajor SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE observemajor SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.get("/helpmajor", (req, res) => {
+// app.get("/helpmajor", (req, res) => {
 
-  const userID = req.query.userID;
+//   const userID = req.query.userID;
 
-  db.query(
-    "SELECT dataID, helpmajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName,ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpmajor left join users on users.userID = helpmajor.userID left join ward on ward.id = helpmajor.wardID left join unit on unit.id = helpmajor.unitID WHERE helpmajor.userID = ?", [userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, helpmajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName,ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpmajor left join users on users.userID = helpmajor.userID left join ward on ward.id = helpmajor.wardID left join unit on unit.id = helpmajor.unitID WHERE helpmajor.userID = ?", [userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.post("/helpmajor", (req, res) => {
+// app.post("/helpmajor", (req, res) => {
 
-  const userID = req.body.userID;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
 
-  db.query(
-    "INSERT INTO helpmajor (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,6,?,0)",
-    [hn, patient_name, diagnosis, ward, unit, userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "INSERT INTO helpmajor (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,6,?,0)",
+//     [hn, patient_name, diagnosis, ward, unit, userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.delete("/helpmajor/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
+// app.delete("/helpmajor/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
 
-  db.query("DELETE FROM helpmajor WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+//   db.query("DELETE FROM helpmajor WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.put("/helpmajor/:id", (req, res) => {
+// app.put("/helpmajor/:id", (req, res) => {
 
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
 
-  const date = new Date();
+//   const date = new Date();
 
-  db.query(
-    "UPDATE helpmajor SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=6, userID=?, updatedAt = ? WHERE dataID = ?",
-    [hn, patient_name, diagnosis, ward, unit, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
-
-
-app.get("/gradinghelpmajor", (req, res) => {
+//   db.query(
+//     "UPDATE helpmajor SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=6, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [hn, patient_name, diagnosis, ward, unit, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
 
-  db.query(
-    "SELECT dataID, helpmajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName,ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpmajor left join users on users.userID = helpmajor.userID left join ward on ward.id = helpmajor.wardID left join unit on unit.id = helpmajor.unitID",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+// app.get("/gradinghelpmajor", (req, res) => {
 
-app.put("/gradinghelpmajor/:id", (req, res) => {
 
-  const id = req.params.id;
+//   db.query(
+//     "SELECT dataID, helpmajor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName,ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpmajor left join users on users.userID = helpmajor.userID left join ward on ward.id = helpmajor.wardID left join unit on unit.id = helpmajor.unitID",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
+
+// app.put("/gradinghelpmajor/:id", (req, res) => {
+
+//   const id = req.params.id;
   
-  const status = req.body.status;
+//   const status = req.body.status;
 
-  db.query(
-    "UPDATE helpmajor SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE helpmajor SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
 
-app.get("/helpobserveminor", (req, res) => {
+// app.get("/helpobserveminor", (req, res) => {
 
-  const userID = req.query.userID;
+//   const userID = req.query.userID;
 
-  db.query(
-    "SELECT dataID, helpobserveminor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpobserveminor left join users on users.userID = helpobserveminor.userID left join ward on ward.id = helpobserveminor.wardID left join unit on unit.id = helpobserveminor.unitID WHERE helpobserveminor.userID = ?", [userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, helpobserveminor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpobserveminor left join users on users.userID = helpobserveminor.userID left join ward on ward.id = helpobserveminor.wardID left join unit on unit.id = helpobserveminor.unitID WHERE helpobserveminor.userID = ?", [userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.post("/helpobserveminor", (req, res) => {
+// app.post("/helpobserveminor", (req, res) => {
   
-  const userID = req.body.userID;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
 
-  db.query(
-    "INSERT INTO helpobserveminor (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,7,?,0)",
-    [hn, patient_name, diagnosis, ward, unit, userID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "INSERT INTO helpobserveminor (hn, patient_name, diagnosis, wardID, unitID, courseID, userID, status) VALUES (?,?,?,?,?,7,?,0)",
+//     [hn, patient_name, diagnosis, ward, unit, userID],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.delete("/helpobserveminor/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(id);
+// app.delete("/helpobserveminor/:id", (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
 
-  db.query("DELETE FROM helpobserveminor WHERE dataID = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+//   db.query("DELETE FROM helpobserveminor WHERE dataID = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.put("/helpobserveminor/:id", (req, res) => {
+// app.put("/helpobserveminor/:id", (req, res) => {
 
-  const userID = req.body.userID;
-  const id = req.params.id;
-  const hn = req.body.hn;
-  const patient_name = req.body.patient_name;
-  const diagnosis = req.body.diagnosis;
-  const ward = req.body.ward;
-  const unit = req.body.unit;
+//   const userID = req.body.userID;
+//   const id = req.params.id;
+//   const hn = req.body.hn;
+//   const patient_name = req.body.patient_name;
+//   const diagnosis = req.body.diagnosis;
+//   const ward = req.body.ward;
+//   const unit = req.body.unit;
 
-  const date = new Date();
+//   const date = new Date();
 
-  db.query(
-    "UPDATE helpobserveminor SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=7, userID=?, updatedAt = ? WHERE dataID = ?",
-    [hn, patient_name, diagnosis, ward, unit, userID, date, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE helpobserveminor SET hn=?, patient_name=?, diagnosis=?, wardID=?, unitID=?, courseID=7, userID=?, updatedAt = ? WHERE dataID = ?",
+//     [hn, patient_name, diagnosis, ward, unit, userID, date, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
-app.get("/gradinghelpobserveminor", (req, res) => {
+// app.get("/gradinghelpobserveminor", (req, res) => {
 
 
-  db.query(
-    "SELECT dataID, helpobserveminor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpobserveminor left join users on users.userID = helpobserveminor.userID left join ward on ward.id = helpobserveminor.wardID left join unit on unit.id = helpobserveminor.unitID",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT dataID, helpobserveminor.userID, hn, patient_name, diagnosis, wardID, unitID, users.fname userName, ward.name wardName, unit.name unitName, createdAt, updatedAt, status FROM helpobserveminor left join users on users.userID = helpobserveminor.userID left join ward on ward.id = helpobserveminor.wardID left join unit on unit.id = helpobserveminor.unitID",
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
 
-app.put("/gradinghelpobserveminor/:id", (req, res) => {
+// app.put("/gradinghelpobserveminor/:id", (req, res) => {
 
-  const id = req.params.id;
+//   const id = req.params.id;
  
-  const status = req.body.status;
+//   const status = req.body.status;
   
 
-  db.query(
-    "UPDATE helpobserveminor SET status=1 WHERE dataID = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data Inserted");
-      }
-    }
-  );
-});
+//   db.query(
+//     "UPDATE helpobserveminor SET status=1 WHERE dataID = ?",
+//     [id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send("Data Inserted");
+//       }
+//     }
+//   );
+// });
 
 app.get("/firstaid", (req, res) => {
 
