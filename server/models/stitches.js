@@ -20,6 +20,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'stitches',
-  });
+  },{timestamps: false});
   return stitches;
 };
