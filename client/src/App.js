@@ -32,6 +32,8 @@ import GradingCVP from "./pages/AllGrading/GradingCVP";
 import GradingResident from "./pages/AllGrading/GradingResident";
 import Manage from "./pages/Manage";
 
+import MUILogIn from "./components/MUILogIn";
+
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -89,6 +91,9 @@ function App() {
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <Switch>
+            <Route path="/muilogin">
+              <MUILogIn />
+            </Route>
             <Route path="/login">
               <LogIn />
             </Route>
