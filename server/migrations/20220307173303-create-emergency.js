@@ -23,13 +23,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'User',
-          key: 'id'
+          key: 'userID'
         },
         onUpdate: 'cascade',
         onDelete: 'cascade'
       },
         status: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
